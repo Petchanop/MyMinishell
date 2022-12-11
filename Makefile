@@ -6,18 +6,23 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2022/12/08 15:18:17 by npiya-is         ###   ########.fr        #
+#    Updated: 2022/12/10 16:57:15 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
 
-CFLAGS= -Wall -Werror -Wextra
+CFLAGS= -g -Wall -Werror -Wextra
 
 LIBS= -lreadline -L libft -lft
 
+PARS_DIR= parsing/
+
+SRCS_PARS:= $(PARS_DIR)parsing.c \
+	$(PARS_DIR)parsing_utils.c \
+	$(PARS_DIR)parseexec.c \
+
 SRCS = main_shell.c \
-		parsing.c \
 
 NAME= minishell
 
@@ -25,10 +30,10 @@ all: $(NAME)
 
 $(NAME):
 	@make -C libft
-	$(CC) $(CFLAGS) $(SRCS) -o $(NAME) $(LIBS)
+	$(CC) $(CFLAGS) $(SRCS) $(SRCS_PARS) -o $(NAME) $(LIBS)
 
 fclean:
 	@make -C libft fclean
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(NAME).dSYM
 
 re: fclean all 
