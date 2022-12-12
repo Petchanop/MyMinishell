@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 00:21:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/12 00:21:24 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/12 18:40:04 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@ int	check_orcmd(char arg1, char arg2)
 {
 	if (arg1 == PIPE && arg2 == PIPE)
 		return (PIPE);
+	return (0);
 }
 
-int	check_arg(t_cmd *cmd, char **envp)
+int	check_arg(char meta1, char meta2)
 {
 	int	i;
 
 	i = 0;
-	printf("cmd : %s\narg : %s\n", cmd->cmd, cmd->arg);
-	while (*envp)
-		envp++;
-	while (cmd->arg[i])	
+	if (check_pipe(meta1))
+		return (meta1);
+	else if (check_orcmd(meta1, meta2))
+		return (meta1 + meta2);
+	return (0);
 }

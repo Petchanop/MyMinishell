@@ -6,58 +6,44 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/10 17:07:59 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:14:23 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*gettoken(char *param)
+void	gettoken(char *param, t_cmd *cmd)
 {
 	int		i;
 	int		j;
-	char	*cmd;
+	int		k;
 
-	i = 0;
-	j = 0;
+	k = 0;
 	if (*param == '\0')
-		return (0);
-	while (ft_isspace(param[i]) && param[i] != '\0')
-		i++;
-	while (!ft_isspace(param[i + j]) && param[i] != '\0')
-		j++;
-	cmd = malloc(j * sizeof(char));
-	j = 0;
-	while (!ft_isspace(param[i]) && param[i])
+		return ;
+	i = trim_space(param);
+	j = find_token(&param[i], cmd);
+	cmd->cmd = malloc((j + 1) * sizeof(char));
+	while (!ft_isspace(param[i]) && j && param[i])
 	{
-		cmd[j] = param[i];
-		j++;
+		cmd->cmd[k] = param[i];
+		j--;
 		i++;
+		k++;
 	}
-	cmd[j] = '\0';
-	return (cmd);
+	cmd->cmd[k] = '\0';
+	cmd->input = &param[i];
+	cmd->arg = find_arg(cmd->input, cmd);
 }
 
 int	parsing(char *arg, char **envp, t_cmd *cmd)
 {
-	int		i;
-	char	*next_arg;
-
-	i = 0;
 	if (!*arg)
 		return (0);
-	cmd->cmd = gettoken(arg);
-	next_arg = find_arg(arg);
-	if (!next_arg)
+	cmd->input = arg;
+	gettoken(cmd->input, cmd);
+	if (!cmd->arg)
 		return (0);
-	cmd->arg = gettoken(next_arg);
-	next_arg = find_arg(next_arg);
 	cmd->result = parseexec(cmd, envp);
-	if (next_arg)
-	{
-		cmd->right = malloc(sizeof(t_cmd));
-		cmd->right->left = cmd;
-		parsing(next_arg, envp, cmd->right);
-	}
 	return (0);
 }

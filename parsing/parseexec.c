@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 16:29:57 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/12 00:21:40 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:43:59 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 char	*parseexec(t_cmd *cmd, char **envp)
 {
 	int	i;
+	int	meta;
 
 	i = 0;
-	printf("cmd : %s\narg : %s\n", cmd->cmd, cmd->arg);
+	meta = 0;
+	printf("cmd : %s\narg : %s\ntoken: %d\n", cmd->cmd, cmd->arg, cmd->token);
+	printf("input : %s\n", cmd->input);
 	while (*envp)
 		envp++;
-	while (cmd->arg[i])
+	/*write fuction that exxcute cmd*/
+	if (cmd->input != NULL)
 	{
-		if (cmd->arg[i] == PIPE)
-		if (cmd->arg[i] == REDIR_IN)
-		if (cmd->arg[i] == REDIR_OUT)
-		if (cmd->arg[i] == AMPERSAND)
-		i++;
+		assign_nextcmd(cmd);
+		parsing(cmd->input, envp, cmd->right);
 	}
 	return (NULL);
 }

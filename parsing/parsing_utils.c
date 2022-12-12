@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:41:51 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/10 16:28:45 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:18:24 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,37 @@ int	ft_isspace(char c)
 	return (c < 33);
 }
 
-char	*find_arg(char *arg)
+int	trim_space(char *param)
 {
 	int	i;
 
 	i = 0;
-	if (arg == NULL)
+	while (ft_isspace(param[i]) && param[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*find_arg(char *param, t_cmd *cmd)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*arg;
+
+	if (param == NULL)
 		return (NULL);
-	while (ft_isspace(arg[i]) && arg[i] != '\0')
+	k = 0;
+	i = trim_space(param);
+	j = find_token(&param[i], cmd);
+	arg = malloc((j + 1) * sizeof(char));
+	while (!ft_isspace(param[i]) && j && param[i])
+	{
+		arg[k] = param[i];
+		j--;
 		i++;
-	while (!ft_isspace(arg[i]) && arg[i] != '\0')
-		i++;
-	return (&arg[i]);
+		k++;
+	}
+	arg[k] = '\0';
+	cmd->input = &param[i];
+	return (arg);
 }
