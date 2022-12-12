@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:41:51 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/12 19:18:24 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:03:30 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ char	*find_arg(char *param, t_cmd *cmd)
 		k++;
 	}
 	arg[k] = '\0';
-	cmd->input = &param[i];
 	return (arg);
 }
