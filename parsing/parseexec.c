@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 16:29:57 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/12 19:43:59 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/13 15:28:24 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*parseexec(t_cmd *cmd, char **envp)
 	printf("input : %s\n", cmd->input);
 	while (*envp)
 		envp++;
-	/*write fuction that exxcute cmd*/
+	/*write fuction that execute cmd*/
 	if (cmd->input != NULL)
 	{
 		assign_nextcmd(cmd);
