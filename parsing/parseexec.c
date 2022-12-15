@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 16:29:57 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/13 15:28:24 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:43:26 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*parseexec(t_cmd *cmd, char **envp)
 
 	i = 0;
 	meta = 0;
-	printf("cmd : %s\narg : %s\ntoken: %d\n", cmd->cmd, cmd->arg, cmd->token);
+	printf("token : %s\nflags %d\n", cmd->token, cmd->flag);
 	printf("input : %s\n", cmd->input);
 	while (*envp)
 		envp++;

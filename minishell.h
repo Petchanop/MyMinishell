@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/12 18:56:47 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:44:10 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,19 @@ typedef struct s_cmd
 	struct s_cmd	*right;
 	struct s_cmd	*left;
 	char			*input;
-	char			*cmd;
-	char			*opt;
-	int				token;
-	char			*arg;
-	char			*result;
+	char			*token;
+	int				flag;
 }	t_cmd;
 
 void	gettoken(char *param, t_cmd *cmd);
 void	assign_nextcmd(t_cmd *cmd);
 int		parsing(char *arg, char **envp, t_cmd *cmd);
 int		ft_isspace(char c);
-int		trim_space(char *param);
+char	*trim_space(char *param);
 int		check_pipe(char arg);
-int		find_token(char *param, t_cmd *cmd);
+char	*find_token(char *param, t_cmd *cmd);
 int		check_orcmd(char arg1, char arg2);
 int		check_arg(char meta1, char meta2);
 char	*parseexec(t_cmd *cmd, char **envp);
-char	*find_arg(char *arg, t_cmd *cmd);
 
 #endif

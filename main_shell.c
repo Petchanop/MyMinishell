@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/12 18:38:30 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:04:38 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,17 @@ int	main(int argc, char **argv, char **envp)
 	cwd = NULL;
 	if (argc >= 1)
 	{
-		cwd = getcwd(argv[1], 0);
-		prompt = join(join(CYANBG, cwd), ">");
-		prompt = join(prompt, RESET);
-		prompt = join(prompt, " ");
-		arg = readline(prompt);
-		cmd = malloc(sizeof(t_cmd));
-		cmd->token = 0;
-		parsing(arg, envp, cmd);
+		while (1)
+		{
+			cwd = getcwd(argv[1], 0);
+			prompt = join(join(CYANBG, cwd), ">");
+			prompt = join(prompt, RESET);
+			prompt = join(prompt, " ");
+			arg = readline(prompt);
+			cmd = malloc(sizeof(t_cmd));
+			cmd->token = 0;
+			parsing(arg, envp, cmd);
+		}
 	}
 	return (0);
 }

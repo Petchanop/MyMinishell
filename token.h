@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:20:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/10 16:48:38 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:34:35 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,10 @@
 # define O_PAREN '('
 # define C_PAREN ')'
 # define WILDCARD '*'
+# define OPT '-' 
+# define OR 248
+# define AND 76
+# define CMD 1
+# define ARG 2
 
 #endif
