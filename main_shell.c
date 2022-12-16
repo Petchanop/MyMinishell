@@ -6,12 +6,20 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/13 16:04:38 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/16 19:00:38 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
+
+void	initilize_cmd(t_cmd *cmd)
+{
+	cmd->left = NULL;
+	cmd->input = NULL;
+	cmd->token = NULL;
+	cmd->flag = 0;
+}
 
 char	*join(const char *s1, const char *s2)
 {
@@ -34,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd	*cmd;
 
 	cwd = NULL;
+	cmd = NULL;
 	if (argc >= 1)
 	{
 		while (1)
@@ -44,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 			prompt = join(prompt, " ");
 			arg = readline(prompt);
 			cmd = malloc(sizeof(t_cmd));
-			cmd->token = 0;
+			initilize_cmd(cmd);
 			parsing(arg, envp, cmd);
 		}
 	}
