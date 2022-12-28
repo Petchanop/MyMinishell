@@ -6,21 +6,23 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 00:21:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/16 15:49:27 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/27 16:35:34 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_pipe(char arg)
+int	check_pipe(char arg1)
 {
-	return (arg == PIPE);
+	if (arg1 == PIPE)
+		return (1);
+	return (0);
 }
 
 int	check_orand(char arg1, char arg2)
 {
 	if (arg1 == PIPE && arg2 == PIPE)
-		return (PIPE);
+		return (OR);
 	if (arg1 == AMPERSAND && arg2 == AMPERSAND)
 		return (AND);
 	return (0);
@@ -57,5 +59,9 @@ int	check_arg(char meta1, char meta2)
 		return (OPT);
 	else if (check_redir(meta1, meta2))
 		return (check_redir(meta1, meta2));
+	else if (meta1 == QUOTE)
+		return (meta1);
+	else if (meta1 == DOUBLE_QUOTE)
+		return (DOUBLE_QUOTE);
 	return (0);
 }
