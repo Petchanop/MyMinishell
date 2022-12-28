@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/28 17:54:47 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/28 21:36:01 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int		check_arg(char meta1, char meta2);
 int		calculate_size(char *param);
 int		find_arglen(char *param);
 int		find_meta(char *param);
+int		execute_cmd(t_cmd *lst_cmd);
+int		execute(t_cmd *cmd);
 char	*trim_space(char *param);
 char	*join(const char *s1, const char *s2);
 char	*find_token(char *param, t_token *cmd);

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/28 19:34:18 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/28 22:43:44 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	assign_argv(t_cmd *lst, char **envp)
 	while (lst)
 	{
 		size = calculate_size(lst->cmd);
+		printf("size : %d\n", size);
 		lst->argv = create_argv(lst->cmd, size);
 		lst->env = envp;
 		lst = lst->next;

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/28 18:00:24 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/28 22:52:48 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ char	**create_argv(char *param, int size)
 	while (param[len])
 	{
 		param = trim_space(&param[len]);
+		if (!param[len])
+			break ;
 		len = find_arglen(param);
 		if (!check_meta(param[len - 1]))
 			argv[i] = copy_arg(param, len);
