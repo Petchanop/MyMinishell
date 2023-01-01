@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2022/12/28 21:35:20 by npiya-is         ###   ########.fr        #
+#    Updated: 2022/12/29 16:58:07 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS= -g -Wall -Werror -Wextra
 LIBS= -lreadline -L libft -lft
 
 PARS_DIR= parsing/
+PIPE_DIR= Pipe/
 
 SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)parsing_utils.c \
@@ -25,9 +26,11 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)checkcmd.c \
 	$(PARS_DIR)checkmeta.c \
 	$(PARS_DIR)calculate_size.c \
+	$(PIPE_DIR)pipe.c \
 	
 SRCS = main_shell.c \
 	execute.c \
+	clear_memory.c \
 
 NAME= minishell
 

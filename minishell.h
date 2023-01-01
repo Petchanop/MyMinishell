@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/28 21:36:01 by npiya-is         ###   ########.fr       */
+/*   Updated: 2022/12/29 16:58:31 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	gettoken(char *param, t_token *cmd);
 void	assign_nexttoken(t_token *cmd);
 void	build_token(t_token *cmd, char **envp);
 void	assign_argv(t_cmd *lst, char **envp);
+void	free_cmd(t_cmd *cmd);
 int		ft_isspace(char c);
 int		check_pipe(char arg);
 int		check_orcmd(char arg1, char arg2);
@@ -59,6 +60,7 @@ int		find_arglen(char *param);
 int		find_meta(char *param);
 int		execute_cmd(t_cmd *lst_cmd);
 int		execute(t_cmd *cmd);
+int		execute_pipe(t_cmd *cmd);
 char	*trim_space(char *param);
 char	*join(const char *s1, const char *s2);
 char	*find_token(char *param, t_token *cmd);
