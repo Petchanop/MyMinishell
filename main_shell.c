@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/30 22:23:04 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/05 02:19:37 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*prompt;
 	char	*arg;
 	t_token	*cmd;
-	t_token	*cmd1;
 	t_cmd	*lst_cmd;
 
 	cwd = NULL;
@@ -65,12 +64,6 @@ int	main(int argc, char **argv, char **envp)
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);
 			parsing(arg, envp, cmd);
-			cmd1 = cmd;
-			// while (cmd1->right)
-			// {
-			// 	printf("cmd : %s flag : %d track : %d\n", cmd1->token, cmd1->flag, cmd1->track);
-			// 	cmd1 = cmd1->right;
-			// }
 			lst_cmd = malloc(sizeof(t_cmd));
 			build_cmd(lst_cmd, cmd, envp);
 			assign_argv(lst_cmd, envp);

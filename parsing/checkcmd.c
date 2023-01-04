@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 00:21:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/27 16:35:34 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:43:21 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ int	check_redir(char meta1, char meta2)
 
 int	check_arg(char meta1, char meta2)
 {
-	int	i;
-
-	i = 0;
 	if (check_orand(meta1, meta2))
 		return (check_orand(meta1, meta2));
 	else if (check_pipe(meta1))

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/29 16:58:31 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:43:37 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>

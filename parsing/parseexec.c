@@ -59,11 +59,6 @@ int	find_meta(char *param)
 
 void	build_token(t_token *cmd, char **envp)
 {
-	int	i;
-	int	meta;
-
-	i = 0;
-	meta = 0;
 	if (cmd->input != NULL)
 	{
 		assign_nexttoken(cmd);

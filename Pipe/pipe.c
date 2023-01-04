@@ -41,6 +41,8 @@ int	execute_pipe(t_cmd *cmd)
 	pid_t	process2;
 	t_cmd	*second;
 	int		pipefd[2];
+	char *ls_args[] = {"/bin/ls", NULL};
+   	char *wc_argx[] = {"/usr/bin/wc", NULL};
 
 	print_cmd(cmd);
 	cmd->argv[0] = join("/bin/", cmd->argv[0]);
@@ -59,34 +61,25 @@ int	execute_pipe(t_cmd *cmd)
 	process1 = fork();
 	if (process1 == 0)
 	{
-		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		{
-			fprintf(stderr, "ls dup2 failed\n");
-			return (-1);
-		}
 		close(pipefd[0]);
-		execve(cmd->argv[0], cmd->argv, cmd->env);
-	}
-	if (process1 == -1)
-	{
-		write(STDERR_FILENO, "parent: Could not fork process to run grep\n", 44);
-		return (-1);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		execve(ls_args[0], ls_args, NULL);
 	}
 	else
 	{
 		process2 = fork();
 		if (process2 == 0)
 		{
-			if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			{
-				fprintf(stderr, "child: grep dup2 failed\n");
-				return (-1);
-			}
+			wait(NULL);
 			close(pipefd[1]);
-			execve(second->argv[0], second->argv, second->env);
+			dup2(pipefd[0], STDIN_FILENO);
+			close(pipefd[0]);
+			exit(0);
 		}
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
+	//execve(cmd->argv[0], cmd->argv, cmd->env);
+	close(pipefd[0]);	
+	close(pipefd[1]);	
 	return (0);
 }
