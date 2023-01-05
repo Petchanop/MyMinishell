@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2022/12/29 16:58:07 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/01/05 22:38:27 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)checkmeta.c \
 	$(PARS_DIR)calculate_size.c \
 	$(PIPE_DIR)pipe.c \
+	$(PIPE_DIR)access.c \
 	
 SRCS = main_shell.c \
 	execute.c \

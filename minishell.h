@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/04 17:43:37 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/05 23:04:20 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		find_meta(char *param);
 int		execute_cmd(t_cmd *lst_cmd);
 int		execute(t_cmd *cmd);
 int		execute_pipe(t_cmd *cmd);
+int		assign_pathcmd(t_cmd *cmd, char *command);
 char	*trim_space(char *param);
 char	*join(const char *s1, const char *s2);
 char	*find_token(char *param, t_token *cmd);
@@ -70,6 +71,7 @@ char	*copy_meta(char	*param);
 char	*copy_arg(char *param, int len);
 char	*build_quotecmd(t_token *cmd, char *argv);
 char	**create_argv(char *param, int size);
+char	*find_path(t_cmd *cmd);
 void	parsing(char *arg, char **envp, t_token *cmd);
 t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 

@@ -41,15 +41,17 @@ int	execute_pipe(t_cmd *cmd)
 	pid_t	process2;
 	t_cmd	*second;
 	int		pipefd[2];
-	char *ls_args[] = {"/bin/ls", NULL};
-   	char *wc_argx[] = {"/usr/bin/wc", NULL};
 
-	print_cmd(cmd);
-	cmd->argv[0] = join("/bin/", cmd->argv[0]);
+	// print_cmd(cmd);
+	if (!assign_pathcmd(cmd, cmd->argv[0]))
+	{
+		perror("command not found");
+		exit(1);
+	}
 	if (cmd->next->next)
 	{
 		second = cmd->next->next;
-		second->argv[0] = join("/bin/", second->argv[0]);
+		assign_pathcmd(second, second->argv[0]);
 	}
 	else
 		return (-1);
@@ -58,16 +60,19 @@ int	execute_pipe(t_cmd *cmd)
 		write(STDERR_FILENO, "parent: Failed to create pipe\n", 30);
 		return (-1);
 	}
+	dprintf(2, "yes\n");
 	process1 = fork();
 	if (process1 == 0)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		execve(ls_args[0], ls_args, NULL);
+		execve(cmd->argv[0], cmd->argv, cmd->env);
+		return (0);
 	}
 	else
 	{
+		dprintf(2, "yes2\n");
 		process2 = fork();
 		if (process2 == 0)
 		{
@@ -75,10 +80,10 @@ int	execute_pipe(t_cmd *cmd)
 			close(pipefd[1]);
 			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
-			exit(0);
+			execve(second->argv[0], second->argv, second->env);
+			return (0);
 		}
 	}
-	//execve(cmd->argv[0], cmd->argv, cmd->env);
 	close(pipefd[0]);	
 	close(pipefd[1]);	
 	return (0);

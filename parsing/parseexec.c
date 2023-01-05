@@ -104,5 +104,6 @@ t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 		free(tmp->token);
 		free(tmp);
 	}
+	free(cmd);
 	return (ret);
 }

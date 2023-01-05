@@ -6,12 +6,31 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/05 02:19:37 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/06 01:00:23 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
+
+void	ft_free(t_cmd *cmd)
+{
+	t_cmd	*fr;
+	while (cmd)
+	{
+		fr = cmd;
+		int	i = 0;
+		while (cmd->argv[i])
+		{
+			free(cmd->argv[i]);
+			i++;
+		}
+		free(cmd->argv);
+		free(cmd->cmd);
+		cmd = cmd->next;
+		free(fr);
+	}
+}
 
 void	initilize_token(t_token *cmd)
 {
@@ -61,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 		while (1)
 		{
 			arg = readline(prompt);
+			add_history(arg);
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);
 			parsing(arg, envp, cmd);
@@ -68,6 +88,8 @@ int	main(int argc, char **argv, char **envp)
 			build_cmd(lst_cmd, cmd, envp);
 			assign_argv(lst_cmd, envp);
 			execute_cmd(lst_cmd);
+			free(arg);
+			ft_free(lst_cmd);
 		}
 	}
 	return (0);

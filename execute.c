@@ -6,13 +6,13 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/05 02:12:14 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/06 00:50:19 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_process(t_cmd *lst_cmd)
+void	wait_process(void)
 {
 	int	status;
 
@@ -23,7 +23,6 @@ void	wait_process(t_cmd *lst_cmd)
 		{
 			if (status == 0)
 			{
-				free_cmd(lst_cmd);
 				break ;
 			}
 		}
@@ -32,14 +31,21 @@ void	wait_process(t_cmd *lst_cmd)
 
 int	execute_cmd(t_cmd *lst_cmd)
 {
-	if (lst_cmd->next)
+	while (lst_cmd)
 	{
-		if (lst_cmd->next->flag == PIPE)
-			execute_pipe(lst_cmd);
+		if (lst_cmd->next)
+		{
+			if (lst_cmd->next->flag == PIPE)
+			{
+				execute_pipe(lst_cmd);
+				lst_cmd = lst_cmd->next;
+			}
+		}
+		else
+			execute(lst_cmd);
+		lst_cmd = lst_cmd->next;
+		wait_process();
 	}
-	else
-		execute(lst_cmd);
-	wait_process(lst_cmd);
 	return (0);
 }
 
@@ -47,7 +53,7 @@ int	execute(t_cmd *cmd)
 {
 	pid_t	process;
 
-	cmd->argv[0] = join("/bin/", cmd->argv[0]);
+	assign_pathcmd(cmd, cmd->argv[0]);
 	process = fork();
 	if (process == 0)
 	{
