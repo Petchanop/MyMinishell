@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/06 01:00:23 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/07 16:14:44 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	main(int argc, char **argv, char **envp)
 			lst_cmd = malloc(sizeof(t_cmd));
 			build_cmd(lst_cmd, cmd, envp);
 			assign_argv(lst_cmd, envp);
+			// print_cmd(lst_cmd);
 			execute_cmd(lst_cmd);
 			free(arg);
 			ft_free(lst_cmd);

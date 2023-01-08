@@ -14,8 +14,8 @@
 
 void	print_cmd(t_cmd *lst_cmd)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_cmd	*lst;
 
 	j = 0;
@@ -35,56 +35,69 @@ void	print_cmd(t_cmd *lst_cmd)
 	}
 }
 
-int	execute_pipe(t_cmd *cmd)
+t_cmd	*execute_pipe(t_cmd *cmd)
 {
 	pid_t	process1;
 	pid_t	process2;
 	t_cmd	*second;
-	int		pipefd[2];
+	int		pipefd[4];
+	int i; 
+	int		status;
 
 	// print_cmd(cmd);
-	if (!assign_pathcmd(cmd, cmd->argv[0]))
-	{
-		perror("command not found");
-		exit(1);
-	}
-	if (cmd->next->next)
-	{
-		second = cmd->next->next;
-		assign_pathcmd(second, second->argv[0]);
-	}
-	else
-		return (-1);
 	if (pipe(pipefd) == -1)
 	{
 		write(STDERR_FILENO, "parent: Failed to create pipe\n", 30);
-		return (-1);
+		exit(1);
 	}
-	dprintf(2, "yes\n");
-	process1 = fork();
-	if (process1 == 0)
+	i = 0;
+	while (cmd->next && cmd->next->flag == PIPE)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		execve(cmd->argv[0], cmd->argv, cmd->env);
-		return (0);
-	}
-	else
-	{
-		dprintf(2, "yes2\n");
-		process2 = fork();
-		if (process2 == 0)
+		if (cmd->next->next)
+			second = cmd->next->next;
+		process1 = fork();
+		if (process1 < 0)
+			printf("fork error\n");
+		if (process1 == 0)
 		{
-			wait(NULL);
-			close(pipefd[1]);
-			dup2(pipefd[0], STDIN_FILENO);
-			close(pipefd[0]);
-			execve(second->argv[0], second->argv, second->env);
-			return (0);
+			close(pipefd[i]);
+			dup2(pipefd[i + 1], STDOUT_FILENO);
+			close(pipefd[i + 1]);
+			if (!assign_pathcmd(cmd, cmd->argv[0]))
+			{
+				perror("command not found");
+				exit(1);
+			}
+			printf("cmd : %s\n", cmd->argv[0]);
+			if (execve(cmd->argv[0], cmd->argv, cmd->env) == -1)
+				printf("kuy1\n");
 		}
+		else
+		{
+			process2 = fork();
+			if (process2 < 0)
+				printf("fork2 error\n");
+			if (process2 == 0)
+			{
+				waitpid(process1, &status, WNOHANG);
+				close(pipefd[i + 1]);
+				dup2(pipefd[i], STDIN_FILENO);
+				close(pipefd[i]);
+				if (!assign_pathcmd(second, second->argv[0]))
+				{
+					perror("command not found");
+					exit(1);
+				}
+				printf("cmd : %s\n", second->argv[0]);
+				if (execve(second->argv[0], second->argv, second->env) == -1)
+					printf("kuy2\n");
+			}
+		}
+		close(pipefd[i]);
+		close(pipefd[i + 1]);
+		// print_cmd(cmd);
+		cmd = cmd->next->next;
+		i += 2;
 	}
-	close(pipefd[0]);	
-	close(pipefd[1]);	
-	return (0);
+	return (cmd);
 }

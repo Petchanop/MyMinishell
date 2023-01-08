@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/06 00:50:19 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/08 20:12:49 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	wait_process(void)
 		if (WIFEXITED(status))
 		{
 			if (status == 0)
-			{
 				break ;
-			}
 		}
 	}
 }
@@ -36,15 +34,13 @@ int	execute_cmd(t_cmd *lst_cmd)
 		if (lst_cmd->next)
 		{
 			if (lst_cmd->next->flag == PIPE)
-			{
-				execute_pipe(lst_cmd);
-				lst_cmd = lst_cmd->next;
-			}
+				lst_cmd = execute_pipe(lst_cmd);
+			//print_cmd(lst_cmd);
 		}
 		else
 			execute(lst_cmd);
-		lst_cmd = lst_cmd->next;
 		wait_process();
+		lst_cmd = lst_cmd->next;
 	}
 	return (0);
 }
@@ -53,7 +49,11 @@ int	execute(t_cmd *cmd)
 {
 	pid_t	process;
 
-	assign_pathcmd(cmd, cmd->argv[0]);
+	if (!assign_pathcmd(cmd, cmd->argv[0]))
+	{
+		perror("command not found");
+		exit(1);
+	}
 	process = fork();
 	if (process == 0)
 	{
