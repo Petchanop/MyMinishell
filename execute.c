@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/08 20:12:49 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/12 00:54:39 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	wait_process(void)
 
 int	execute_cmd(t_cmd *lst_cmd)
 {
+	pid_t	process;
+	fds = dup(0);
 	while (lst_cmd)
 	{
-		if (lst_cmd->next)
-		{
-			if (lst_cmd->next->flag == PIPE)
-				lst_cmd = execute_pipe(lst_cmd);
-			//print_cmd(lst_cmd);
-		}
-		else
-			execute(lst_cmd);
-		wait_process();
+		process = execute_pipe(lst_cmd);
+		if (lst_cmd->next && lst_cmd->next->flag == PIPE)
+			lst_cmd = lst_cmd->next;
 		lst_cmd = lst_cmd->next;
+		//print_cmd(lst_cmd);
 	}
+	while (wait(0) != -1 || errno != ECHILD)
+		;
+	dup2(0, fds);
 	return (0);
 }
 
