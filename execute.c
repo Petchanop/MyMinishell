@@ -6,62 +6,27 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/12 00:54:39 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/12 23:05:04 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_process(void)
-{
-	int	status;
-
-	while (1)
-	{
-		waitpid(0, &status, 0);
-		if (WIFEXITED(status))
-		{
-			if (status == 0)
-				break ;
-		}
-	}
-}
-
 int	execute_cmd(t_cmd *lst_cmd)
 {
-	pid_t	process;
 	fds = dup(0);
 	while (lst_cmd)
 	{
-		process = execute_pipe(lst_cmd);
+		execute(lst_cmd);
 		if (lst_cmd->next && lst_cmd->next->flag == PIPE)
 			lst_cmd = lst_cmd->next;
+		if (lst_cmd->next && (lst_cmd->next->flag == REDIR_OUT || lst_cmd->next->flag == APPEND))
+			lst_cmd = lst_cmd->next->next;
 		lst_cmd = lst_cmd->next;
 		//print_cmd(lst_cmd);
 	}
 	while (wait(0) != -1 || errno != ECHILD)
 		;
 	dup2(0, fds);
-	return (0);
-}
-
-int	execute(t_cmd *cmd)
-{
-	pid_t	process;
-
-	if (!assign_pathcmd(cmd, cmd->argv[0]))
-	{
-		perror("command not found");
-		exit(1);
-	}
-	process = fork();
-	if (process == 0)
-	{
-		if (execve(cmd->argv[0], &cmd->argv[0], cmd->env) == -1)
-		{
-			write(1, "Error\n", 6);
-			return (-1);
-		}
-	}
 	return (0);
 }

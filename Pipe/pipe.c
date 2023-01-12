@@ -35,7 +35,37 @@ void	print_cmd(t_cmd *lst_cmd)
 	}
 }
 
-pid_t	execute_pipe(t_cmd *cmd)
+void	pipe_re_append(t_cmd *cmd, int *pipefd)
+{
+	int	fd;
+
+	fd = 0;
+	if (cmd->next && cmd->next->flag == PIPE)
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
+	else if (cmd->next)
+	{
+		if (cmd->next->next && cmd->next->flag == REDIR_OUT)
+		{
+			fd = open(cmd->next->next->argv[0], \
+				O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (cmd->next->next && cmd->next->flag == APPEND)
+		{
+			fd = open(cmd->next->next->argv[0], \
+				O_WRONLY | O_CREAT | O_APPEND, 0666);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+	}
+}
+
+void	execute(t_cmd *cmd)
 {
 	pid_t	process;
 	int		pipefd[2];
@@ -49,12 +79,7 @@ pid_t	execute_pipe(t_cmd *cmd)
 	{
 		dup2(fds, STDIN_FILENO);
 		close(fds);
-		if (cmd->next && cmd->next->flag == PIPE)
-		{
-			dup2(pipefd[1], STDOUT_FILENO);
-			close(pipefd[0]);
-			close(pipefd[1]);
-		}
+		pipe_re_append(cmd, pipefd);
 		if (!assign_pathcmd(cmd, cmd->argv[0]))
 		{
 			perror("command not found");
@@ -70,5 +95,4 @@ pid_t	execute_pipe(t_cmd *cmd)
 		close(pipefd[0]);
 		close(pipefd[1]);
 	}
-	return (process);
 }

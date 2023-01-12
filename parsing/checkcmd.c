@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 00:21:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/04 17:43:21 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/12 23:03:15 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	check_opt(char meta1, char meta2)
 int	check_redir(char meta1, char meta2)
 {
 	if (meta1 == REDIR_IN && meta2 == REDIR_IN)
-		return (APPEND);
-	if (meta1 == REDIR_OUT && meta2 == REDIR_OUT)
 		return (HEREDOC);
+	if (meta1 == REDIR_OUT && meta2 == REDIR_OUT)
+		return (APPEND);
 	if (meta1 == REDIR_IN)
 		return (REDIR_IN);
 	if (meta1 == REDIR_OUT)

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 22:27:40 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/08 20:06:29 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/12 22:57:48 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ char	*find_path(t_cmd *cmd)
 	return (path);
 }
 
+void	shift_path(char *path)
+{
+	while (*path != '=')
+		path++;
+	path++;
+}
+
 int	assign_pathcmd(t_cmd *cmd, char *command)
 {
 	char	*path;
@@ -39,9 +46,7 @@ int	assign_pathcmd(t_cmd *cmd, char *command)
 	if (access(cmd->argv[0], F_OK | X_OK) != -1)
 		return (1);
 	path = find_path(cmd);
-	while (*path != '=')
-		path++;
-	path++;
+	shift_path(path);
 	path_split = ft_split(path, ':');
 	while (path_split[i])
 	{
