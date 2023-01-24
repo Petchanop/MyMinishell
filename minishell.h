@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/24 22:18:46 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/24 23:37:49 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,24 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-void	redir_heredoc(t_cmd *cmd);
-void	shift_inheredoc(t_cmd *cmd);
-void	remove_cmd(t_cmd **cmd, t_cmd *rem);
-void	shift_reappend(t_cmd **cmd);
-void	print_token(t_token *cmd);
-void	print_cmd(t_cmd *lst_cmd);
+void	assign_argv(t_cmd *lst, char **envp);
+t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 void	assign_flag(char *param, t_token *cmd);
-void	gettoken(char *param, t_token *cmd);
 void	assign_nexttoken(t_token *cmd);
 void	build_token(t_token *cmd, char **envp);
-void	assign_argv(t_cmd *lst, char **envp);
 void	execute(t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
+void	gettoken(char *param, t_token *cmd);
+void	initialize_cmd(t_cmd *cmd, char **env);
 void	parsing(char *arg, char **envp, t_token *cmd);
+void	print_cmd(t_cmd *lst_cmd);
+void	print_token(t_token *cmd);
+void	redir_heredoc(t_cmd *cmd);
+void	remove_cmd(t_cmd **cmd, t_cmd *rem);
+void	shift_inheredoc(t_cmd *cmd);
+void	shift_reappend(t_cmd **cmd);
 int		argv_len(char **arg);
+int		check_flag(int flag);
 int		ft_isspace(char c);
 int		check_pipe(char arg);
 int		check_orcmd(char arg1, char arg2);

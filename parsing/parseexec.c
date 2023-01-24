@@ -12,15 +12,6 @@
 
 #include "../minishell.h"
 
-void	initialize_cmd(t_cmd *cmd, char **env)
-{
-	cmd->cmd = malloc(sizeof(char));
-	cmd->cmd[0] = '\0';
-	cmd->flag = 0;
-	cmd->next = NULL;
-	cmd->env = env;
-}
-
 int	check_flag(int flag)
 {
 	if (flag == PIPE || flag == REDIR_IN || flag == REDIR_OUT
@@ -77,28 +68,7 @@ t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 	ret = lst_cmd;
 	while (cmd->right)
 	{
-		if (check_flag(cmd->flag))
-		{
-			if (!lst_cmd->flag)
-				lst_cmd->flag = cmd->flag;
-			else
-			{
-				lst_cmd->next = malloc(sizeof(t_cmd));
-				initialize_cmd(lst_cmd->next, envp);
-				lst_cmd = lst_cmd->next;
-				lst_cmd->flag = cmd->flag;
-			}
-			lst_cmd->next = malloc(sizeof(t_cmd));
-			initialize_cmd(lst_cmd->next, envp);
-			lst_cmd = lst_cmd->next;
-		}
-		else
-		{
-			lst_cmd->cmd = ft_strjoin(lst_cmd->cmd, cmd->token);
-			lst_cmd->flag = cmd->flag;
-			if (cmd->right && (cmd->flag != OPT && cmd->flag != DOUBLE_QUOTE))
-				lst_cmd->cmd = ft_strjoin(lst_cmd->cmd, " ");
-		}
+		lst_cmd = assign_cmd(lst_cmd, cmd, envp);
 		tmp = cmd;
 		cmd = cmd->right;
 		free(tmp->token);

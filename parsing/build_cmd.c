@@ -6,11 +6,20 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:55:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/24 23:46:35 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/24 23:37:32 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	initialize_cmd(t_cmd *cmd, char **env)
+{
+	cmd->cmd = malloc(sizeof(char));
+	cmd->cmd[0] = '\0';
+	cmd->flag = 0;
+	cmd->next = NULL;
+	cmd->env = env;
+}
 
 char	*build_quotecmd(t_token *cmd, char *argv)
 {
@@ -22,6 +31,33 @@ char	*build_quotecmd(t_token *cmd, char *argv)
 	}
 	else
 		return (NULL);
+}
+
+t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
+{
+	if (check_flag(cmd->flag))
+	{
+		if (!lst_cmd->flag)
+			lst_cmd->flag = cmd->flag;
+		else
+		{
+			lst_cmd->next = malloc(sizeof(t_cmd));
+			initialize_cmd(lst_cmd->next, envp);
+			lst_cmd = lst_cmd->next;
+			lst_cmd->flag = cmd->flag;
+		}
+		lst_cmd->next = malloc(sizeof(t_cmd));
+		initialize_cmd(lst_cmd->next, envp);
+		lst_cmd = lst_cmd->next;
+	}
+	else
+	{
+		lst_cmd->cmd = ft_strjoin(lst_cmd->cmd, cmd->token);
+		lst_cmd->flag = cmd->flag;
+		if (cmd->right && (cmd->flag != OPT && cmd->flag != DOUBLE_QUOTE))
+			lst_cmd->cmd = ft_strjoin(lst_cmd->cmd, " ");
+	}
+	return (lst_cmd);
 }
 
 

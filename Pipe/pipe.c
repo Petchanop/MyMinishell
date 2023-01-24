@@ -37,6 +37,8 @@ void	print_cmd(t_cmd *lst_cmd)
 
 void	pipe_cmd(t_cmd *cmd, int *pipefd)
 {
+	dup2(fds, STDIN_FILENO);
+	close(fds);
 	if (cmd->next && cmd->next->flag == PIPE)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -60,17 +62,10 @@ void	shift_reappend(t_cmd **cmd)
 			{
 				if (argv_len((*cmd)->next->next->argv) > 1)
 				{
-					remove_cmd(cmd, (*cmd)->next);
-					remove_cmd(cmd, (*cmd)->next);
-				}
-			}
-			else if ((*cmd)->next->next && (*cmd)->next->flag == APPEND)
-			{
-				if (argv_len((*cmd)->next->next->argv) > 1)
-				{
-					remove_cmd(cmd, (*cmd)->next);
+					(*cmd)->argv = argv_join((*cmd)->argv, &(*cmd)->next->next->argv[1]);
 					remove_cmd(cmd, (*cmd)->next);
 				}
+				remove_cmd(cmd, (*cmd)->next);
 			}
 		}
 	}
@@ -97,28 +92,23 @@ void	re_append(t_cmd **cmd)
 			{
 				redir = open((*cmd)->next->next->argv[0], \
 					O_WRONLY | O_CREAT | O_TRUNC, 0666);
-				if (argv_len((*cmd)->next->next->argv) > 1)
-				{
-					(*cmd)->argv = argv_join((*cmd)->argv, &(*cmd)->next->next->argv[1]);
-					remove_cmd(cmd, (*cmd)->next);
-					remove_cmd(cmd, (*cmd)->next);
-				}
-				dup2(redir, STDOUT_FILENO);
-				close(redir);
 			}
 			else if ((*cmd)->next->next && (*cmd)->next->flag == APPEND)
 			{
 				redir = open((*cmd)->next->next->argv[0], \
 					O_WRONLY | O_CREAT | O_APPEND, 0666);
-				if (argv_len((*cmd)->next->next->argv) > 1)
-				{
+			}
+			if ((*cmd)->next && (*cmd)->next->next)
+			{
+				 if (argv_len((*cmd)->next->next->argv) > 1)
+				 {
 					(*cmd)->argv = argv_join((*cmd)->argv, &(*cmd)->next->next->argv[1]);
 					remove_cmd(cmd, (*cmd)->next);
-					remove_cmd(cmd, (*cmd)->next);
-				}
-				dup2(redir, STDOUT_FILENO);
-				close(redir);
+				 }
+				remove_cmd(cmd, (*cmd)->next);
 			}
+			dup2(redir, STDOUT_FILENO);
+			close(redir);
 		}
 	}
 	dup2(0, redir);
@@ -142,6 +132,7 @@ void	execute(t_cmd *cmd)
 	int		pipefd[2];
 	int		i;
 
+
 	i = 0;
 	if (cmd->next && cmd->next->flag == PIPE)
 		pipe(pipefd);
@@ -150,12 +141,9 @@ void	execute(t_cmd *cmd)
 		printf("fork error\n");
 	if (process == 0)
 	{
-		dup2(fds, STDIN_FILENO);
-		close(fds);
 		pipe_cmd(cmd, pipefd);
 		re_append(&cmd);
 		redir_heredoc(cmd);
-		// print_cmd(cmd);
 		while (!assign_pathcmd(cmd, cmd->argv[i]))
 			i++;
 		if (!assign_pathcmd(cmd, cmd->argv[i]))
