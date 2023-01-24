@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 22:27:40 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/12 22:57:48 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/22 20:40:27 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	assign_pathcmd(t_cmd *cmd, char *command)
 	int		i;
 
 	i = 0;
+	if (!command[0])
+		return (0);
 	if (access(cmd->argv[0], F_OK | X_OK) != -1)
 		return (1);
 	path = find_path(cmd);

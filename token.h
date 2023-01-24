@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:20:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/16 15:40:48 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:23:28 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@
 # define APPEND 200
 # define HEREDOC 201 
 # define OR 248
+# define FILE 300
 
 #endif
