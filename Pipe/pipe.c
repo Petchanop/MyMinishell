@@ -121,6 +121,7 @@ void	re_append(t_cmd **cmd)
 			}
 		}
 	}
+	dup2(0, redir);
 }
 
 void	close_fd(t_cmd *cmd, int fds, int *pipefd)

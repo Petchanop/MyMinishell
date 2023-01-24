@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/23 18:45:16 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:18:46 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	build_token(t_token *cmd, char **envp);
 void	assign_argv(t_cmd *lst, char **envp);
 void	execute(t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
+void	parsing(char *arg, char **envp, t_token *cmd);
 int		argv_len(char **arg);
 int		ft_isspace(char c);
 int		check_pipe(char arg);
@@ -76,6 +77,7 @@ int		find_nextarg(char *param);
 int		execute_cmd(t_cmd *lst_cmd);
 int		assign_pathcmd(t_cmd *cmd, char *command);
 char	*arrange_cmd(char *param);
+char	*assign_token(char *param, t_token *cmd, int i);
 char	*trim_character(char *param);
 char	*arrange_cmd(char *param);
 char	*trim_space(char *param);
@@ -87,7 +89,6 @@ char	*build_quotecmd(t_token *cmd, char *argv);
 char	*find_path(t_cmd *cmd);
 char	**create_argv(char *param, int size);
 char	**argv_join(char **arg1, char **arg2);
-void	parsing(char *arg, char **envp, t_token *cmd);
 t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 
 #endif
