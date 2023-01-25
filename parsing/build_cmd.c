@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:55:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/24 23:37:32 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:50:58 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,16 @@ t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 	return (lst_cmd);
 }
 
+void	assign_argv(t_cmd *lst, char **envp)
+{
+	int	size;
 
+	size = 0;
+	while (lst)
+	{
+		size = calculate_size(lst->cmd);
+		lst->argv = create_argv(lst->cmd, size);
+		lst->env = envp;
+		lst = lst->next;
+	}
+}

@@ -22,8 +22,8 @@ void	print_cmd(t_cmd *lst_cmd)
 	lst = lst_cmd;
 	while (lst)
 	{
-		dprintf(2,"cmd[%d] : %s\n", j, lst->cmd);
-		dprintf(2,"flag[%d] : %d\n", j, lst->flag);
+		dprintf(2, "cmd[%d] : %s\n", j, lst->cmd);
+		dprintf(2, "flag[%d] : %d\n", j, lst->flag);
 		i = 0;
 		while (lst->argv[i])
 		{
@@ -100,11 +100,11 @@ void	re_append(t_cmd **cmd)
 			}
 			if ((*cmd)->next && (*cmd)->next->next)
 			{
-				 if (argv_len((*cmd)->next->next->argv) > 1)
-				 {
+				if (argv_len((*cmd)->next->next->argv) > 1)
+				{
 					(*cmd)->argv = argv_join((*cmd)->argv, &(*cmd)->next->next->argv[1]);
 					remove_cmd(cmd, (*cmd)->next);
-				 }
+				}
 				remove_cmd(cmd, (*cmd)->next);
 			}
 			dup2(redir, STDOUT_FILENO);
@@ -131,7 +131,6 @@ void	execute(t_cmd *cmd)
 	pid_t	process;
 	int		pipefd[2];
 	int		i;
-
 
 	i = 0;
 	if (cmd->next && cmd->next->flag == PIPE)

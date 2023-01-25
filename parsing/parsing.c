@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/20 23:48:33 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:51:12 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,4 @@ void	parsing(char *arg, char **envp, t_token *cmd)
 	cmd->input = arg;
 	gettoken(arg, cmd);
 	build_token(cmd, envp);
-}
-
-void	assign_argv(t_cmd *lst, char **envp)
-{
-	int	size;
-
-	size = 0;
-	while (lst)
-	{
-		size = calculate_size(lst->cmd);
-		lst->argv = create_argv(lst->cmd, size);
-		lst->env = envp;
-		lst = lst->next;
-	}
 }

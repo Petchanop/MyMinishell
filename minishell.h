@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/24 23:37:49 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:58:32 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	print_token(t_token *cmd);
 void	redir_heredoc(t_cmd *cmd);
 void	remove_cmd(t_cmd **cmd, t_cmd *rem);
 void	shift_inheredoc(t_cmd *cmd);
+void	shift_path(char *path);
 void	shift_reappend(t_cmd **cmd);
 int		argv_len(char **arg);
 int		check_flag(int flag);

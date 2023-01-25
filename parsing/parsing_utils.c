@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:41:51 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/20 23:48:42 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:52:29 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,16 @@ int	find_index(char *param, int meta)
 	return (i);
 }
 
-
-int	find_nextarg(char *param)
+int	find_nextarg(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (!ft_isspace(param[i]) && param[i])
+	while (!ft_isspace(str[i]) && str[i])
 		i++;
-	while (ft_isspace(param[i]) && param[i])
+	while (ft_isspace(str[i]) && str[i])
 		i++;
-	while (!ft_isspace(param[i]) && param[i] && !check_arg(param[i], param[i + 1]))
+	while (!ft_isspace(str[i]) && str[i] && !check_arg(str[i], str[i + 1]))
 		i++;
 	return (i);
 }
