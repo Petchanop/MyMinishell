@@ -6,67 +6,65 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 23:47:42 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/25 18:57:32 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/25 23:36:11 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	redir_heredoc(t_cmd *cmd)
+void	redir_heredoc(t_cmd **cmd)
 {
-	if (cmd->next)
+	if ((*cmd)->next)
 	{
-		while (cmd->next && (cmd->next->flag == REDIR_IN || cmd->next->flag == HEREDOC))
+		if ((*cmd)->flag == REDIR_IN || (*cmd)->flag == HEREDOC)
 		{
-			if (cmd->next->next && cmd->next->flag == REDIR_IN)
+			if ((*cmd)->flag == REDIR_IN)
 			{
-				redir = open(cmd->next->next->argv[0], O_RDONLY);
-				if (argv_len(cmd->next->next->argv) > 1)
-				{
-					cmd->argv = argv_join(cmd->argv, &cmd->next->next->argv[1]);
-					remove_cmd(&cmd, cmd->next);
-					remove_cmd(&cmd, cmd->next);
-				}
-				dup2(redir, STDIN_FILENO);
-				close(redir);
+				redir = open((*cmd)->next->argv[0], O_RDONLY);
+				(*cmd) = (*cmd)->next;
 			}
-			else if (cmd->next->next && cmd->next->flag == HEREDOC)
+			dup2(redir, STDIN_FILENO);
+			close(redir);
+		}
+		while ((*cmd)->next && ((*cmd)->next->flag == REDIR_IN || (*cmd)->next->flag == HEREDOC))
+		{
+			if ((*cmd)->next->next && (*cmd)->next->flag == REDIR_IN)
+				redir = open((*cmd)->next->next->argv[0], O_RDONLY);
+			else if ((*cmd)->next->next && (*cmd)->next->flag == HEREDOC)
+				redir = open((*cmd)->next->next->argv[0], O_RDONLY);
+			if ((*cmd)->next && (*cmd)->next->next)
 			{
-				if (argv_len(cmd->next->next->argv) > 1)
+				if (argv_len((*cmd)->next->next->argv) > 1)
 				{
-					cmd->argv = argv_join(cmd->argv, &cmd->next->next->argv[1]);
-					remove_cmd(&cmd, cmd->next->next);
-					remove_cmd(&cmd, cmd->next);
+					(*cmd)->argv = argv_join((*cmd)->argv, &(*cmd)->next->next->argv[1]);
+					remove_cmd(cmd, (*cmd)->next);
 				}
-				dup2(redir, STDOUT_FILENO);
-				close(redir);
+				remove_cmd(cmd, (*cmd)->next);
 			}
+			dup2(redir, STDIN_FILENO);
+			close(redir);
 		}
 	}
+	// dup2(0, redir);
 }
 
-void	shift_inheredoc(t_cmd *cmd)
+void	shift_inheredoc(t_cmd **cmd)
 {
-	if (cmd->next)
+	if ((*cmd)->next)
 	{
-		while (cmd->next && (cmd->next->flag == REDIR_IN || cmd->next->flag == HEREDOC))
+		if ((*cmd)->flag == REDIR_IN)
+			(*cmd) = (*cmd)->next;
+		while ((*cmd)->next && ((*cmd)->next->flag == REDIR_IN || (*cmd)->next->flag == HEREDOC))
 		{
-			if (cmd->next->next && cmd->next->flag == REDIR_IN)
+			if ((*cmd)->next && (*cmd)->next->next)
 			{
-				if (argv_len(cmd->next->next->argv) > 1)
+				if (argv_len((*cmd)->next->next->argv) > 1)
 				{
-					remove_cmd(&cmd, cmd->next);
-					remove_cmd(&cmd, cmd->next);
+					(*cmd)->argv = argv_join((*cmd)->argv, &(*cmd)->next->next->argv[1]);
+					remove_cmd(cmd, (*cmd)->next);
 				}
-			}
-			else if (cmd->next->next && cmd->next->flag == HEREDOC)
-			{
-				if (argv_len(cmd->next->next->argv) > 1)
-				{
-					remove_cmd(&cmd, cmd->next->next);
-					remove_cmd(&cmd, cmd->next);
-				}
+				remove_cmd(cmd, (*cmd)->next);
 			}
 		}
-	}
+	}	
 }

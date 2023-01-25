@@ -142,7 +142,8 @@ void	execute(t_cmd *cmd)
 	{
 		pipe_cmd(cmd, pipefd);
 		re_append(&cmd);
-		redir_heredoc(cmd);
+		redir_heredoc(&cmd);
+		print_cmd(cmd);
 		while (!assign_pathcmd(cmd, cmd->argv[i]))
 			i++;
 		if (!assign_pathcmd(cmd, cmd->argv[i]))
