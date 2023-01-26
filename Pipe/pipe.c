@@ -37,8 +37,8 @@ void	print_cmd(t_cmd *lst_cmd)
 
 void	pipe_cmd(t_cmd *cmd, int *pipefd)
 {
-	dup2(fds, STDIN_FILENO);
-	close(fds);
+	dup2(g_all.fds, STDIN_FILENO);
+	close(g_all.fds);
 	if (cmd->next && cmd->next->flag == PIPE)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -79,23 +79,23 @@ void	re_append(t_cmd **cmd)
 		{
 			if ((*cmd)->flag == REDIR_OUT)
 			{
-				redir = open((*cmd)->next->argv[0], \
+				g_all.redir = open((*cmd)->next->argv[0], \
 						O_WRONLY | O_CREAT | O_TRUNC, 0666);
 				(*cmd) = (*cmd)->next;
 			}
-			dup2(redir, STDOUT_FILENO);
-			close(redir);
+			dup2(g_all.redir, STDOUT_FILENO);
+			close(g_all.redir);
 		}
 		while ((*cmd)->next && ((*cmd)->next->flag == REDIR_OUT || (*cmd)->next->flag == APPEND))
 		{
 			if ((*cmd)->next->next && (*cmd)->next->flag == REDIR_OUT)
 			{
-				redir = open((*cmd)->next->next->argv[0], \
+				g_all.redir = open((*cmd)->next->next->argv[0], \
 					O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			}
 			else if ((*cmd)->next->next && (*cmd)->next->flag == APPEND)
 			{
-				redir = open((*cmd)->next->next->argv[0], \
+				g_all.redir = open((*cmd)->next->next->argv[0], \
 					O_WRONLY | O_CREAT | O_APPEND, 0666);
 			}
 			if ((*cmd)->next && (*cmd)->next->next)
@@ -107,20 +107,20 @@ void	re_append(t_cmd **cmd)
 				}
 				remove_cmd(cmd, (*cmd)->next);
 			}
-			dup2(redir, STDOUT_FILENO);
+			dup2(g_all.redir, STDOUT_FILENO);
 			close(redir);
 		}
 	}
-	dup2(0, redir);
+	dup2(0, g_all.redir);
 }
 
-void	close_fd(t_cmd *cmd, int fds, int *pipefd)
+void	close_fd(t_cmd *cmd, int *pipefd)
 {
 	if (!(cmd->next && cmd->next->flag == PIPE))
-		dup2(0, fds);
+		dup2(0, g_all.fds);
 	if (cmd->next && cmd->next->flag == PIPE)
 	{
-		dup2(pipefd[0], fds);
+		dup2(pipefd[0], g_all.fds);
 		close(pipefd[0]);
 		close(pipefd[1]);
 	}
@@ -135,6 +135,9 @@ void	execute(t_cmd *cmd)
 	i = 0;
 	if (cmd->next && cmd->next->flag == PIPE)
 		pipe(pipefd);
+	print_cmd(cmd);
+	if (is_builtin(cmd))
+		return ;
 	process = fork();
 	if (process < 0)
 		printf("fork error\n");
@@ -143,7 +146,6 @@ void	execute(t_cmd *cmd)
 		pipe_cmd(cmd, pipefd);
 		re_append(&cmd);
 		redir_heredoc(&cmd);
-		print_cmd(cmd);
 		while (!assign_pathcmd(cmd, cmd->argv[i]))
 			i++;
 		if (!assign_pathcmd(cmd, cmd->argv[i]))
@@ -154,5 +156,5 @@ void	execute(t_cmd *cmd)
 		if (execve(cmd->argv[0], &cmd->argv[i], cmd->env) == -1)
 			perror("execve error");
 	}
-	close_fd(cmd, fds, pipefd);
+	close_fd(cmd, pipefd);
 }

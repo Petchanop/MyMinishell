@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/01/24 23:33:37 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/01/26 22:29:44 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBS= -lreadline -L libft -lft
 
 PARS_DIR= parsing/
 PIPE_DIR= Pipe/
+BUILTIN_DIR = builtin/
 
 SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)parsing_utils.c \
@@ -32,6 +33,7 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PIPE_DIR)access.c \
 	$(PIPE_DIR)manage_args.c \
 	$(PIPE_DIR)redir.c \
+	$(BUILTIN_DIR)isbuiltin.c \
 	
 SRCS = main_shell.c \
 	execute.c \

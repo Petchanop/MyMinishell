@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/25 23:00:24 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/26 22:28:47 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@
 
 int fds;
 int	redir;
+
+typedef struct s_global
+{
+	int		fds;
+	int		redir;
+}	t_global;
+
+t_global	g_all;
+extern char	**environ;
+
 typedef struct s_token
 {
 	struct s_token	*right;
@@ -48,6 +58,8 @@ typedef struct s_cmd
 	int				flag;
 	struct s_cmd	*next;
 }	t_cmd;
+
+extern char	**environ;
 
 void	assign_argv(t_cmd *lst, char **envp);
 t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
@@ -78,6 +90,8 @@ int		find_arglen(char *param);
 int		find_meta(char *param);
 int		find_index(char *param, int meta);
 int		find_nextarg(char *param);
+int		cd_implement(t_cmd *cmd);
+int		is_builtin(t_cmd *cmd);
 int		execute_cmd(t_cmd *lst_cmd);
 int		assign_pathcmd(t_cmd *cmd, char *command);
 char	*arrange_cmd(char *param);

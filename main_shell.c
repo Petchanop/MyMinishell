@@ -6,12 +6,22 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/22 22:10:45 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/26 22:43:39 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
+
+char	*get_current_path(char *cwd)
+{
+	char	*prompt;
+
+	prompt = join(join(CYANBG, cwd), ">");
+	prompt = join(prompt, RESET);
+	prompt = join(prompt, " ");
+	return (prompt);
+}
 
 void	print_token(t_token *cmd)
 {
@@ -77,17 +87,17 @@ int	main(int argc, char **argv, char **envp)
 	char	*cwd;
 	char	*prompt;
 	char	*arg;
+	// char 	**envp;
 	t_token	*cmd;
 	t_cmd	*lst_cmd;
 
 	cwd = NULL;
 	cmd = NULL;
+	// envp = environ;
 	if (argc >= 1)
 	{
 		cwd = getcwd(argv[1], 0);
-		prompt = join(join(CYANBG, cwd), ">");
-		prompt = join(prompt, RESET);
-		prompt = join(prompt, " ");
+		prompt = get_current_path(cwd);
 		while (1)
 		{
 			arg = readline(prompt);
@@ -99,6 +109,15 @@ int	main(int argc, char **argv, char **envp)
 			build_cmd(lst_cmd, cmd, envp);
 			assign_argv(lst_cmd, envp);
 			execute_cmd(lst_cmd);
+			// int i = 0;
+			// while (envp[i])
+			// {
+			// 	printf("%s\n", envp[i]);
+			// 	i++;
+			// }
+			free(prompt);
+			cwd = getcwd(argv[1], 0);
+			prompt = get_current_path(cwd);
 			free(arg);
 			ft_free(lst_cmd);
 		}
