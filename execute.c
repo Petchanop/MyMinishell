@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/25 23:00:46 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/26 23:00:23 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	execute_cmd(t_cmd *lst_cmd)
 {
-	fds = dup(0);
+	g_all.fds = dup(0);
 	// print_cmd(lst_cmd);
 	while (lst_cmd)
 	{
@@ -27,6 +27,6 @@ int	execute_cmd(t_cmd *lst_cmd)
 	}
 	while (wait(0) != -1 || errno != ECHILD)
 		;
-	dup2(0, fds);
+	dup2(0, g_all.fds);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/25 18:49:12 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/27 11:59:58 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ char	**create_argv(char *param, int size)
 	argv = malloc((size + 1) * sizeof(char *));
 	len = 0;
 	i = 0;
+	if (size == 0)
+		return (NULL);
 	while (param && param[len + 1])
 	{
 		param = trim_space(&param[len]);

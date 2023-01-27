@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/01/26 22:29:44 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/01/27 11:56:48 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC= gcc
 
 CFLAGS= -g -Wall -Werror -Wextra
 
-LIBS= -lreadline -L libft -lft
+LIBS= -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline -L libft -lft
 
 PARS_DIR= parsing/
 PIPE_DIR= Pipe/

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/26 22:43:39 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/27 11:48:01 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	main(int argc, char **argv, char **envp)
 			free(arg);
 			ft_free(lst_cmd);
 		}
+		rl_clear_history();
 	}
 	return (0);
 }

@@ -108,10 +108,11 @@ void	re_append(t_cmd **cmd)
 				remove_cmd(cmd, (*cmd)->next);
 			}
 			dup2(g_all.redir, STDOUT_FILENO);
-			close(redir);
+			close(g_all.redir);
 		}
 	}
-	dup2(0, g_all.redir);
+	if ((*cmd)->next != NULL)
+		dup2(0, g_all.redir);
 }
 
 void	close_fd(t_cmd *cmd, int *pipefd)
@@ -133,9 +134,9 @@ void	execute(t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	if (cmd->next && cmd->next->flag == PIPE)
+	if (cmd && cmd->next && cmd->next->flag == PIPE)
 		pipe(pipefd);
-	print_cmd(cmd);
+	// print_cmd(cmd);
 	if (is_builtin(cmd))
 		return ;
 	process = fork();
@@ -146,7 +147,7 @@ void	execute(t_cmd *cmd)
 		pipe_cmd(cmd, pipefd);
 		re_append(&cmd);
 		redir_heredoc(&cmd);
-		while (!assign_pathcmd(cmd, cmd->argv[i]))
+		while (cmd->argv[i] && !assign_pathcmd(cmd, cmd->argv[i]))
 			i++;
 		if (!assign_pathcmd(cmd, cmd->argv[i]))
 		{
