@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 00:21:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/12 23:03:15 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/29 00:41:16 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	check_arg(char meta1, char meta2)
 		return (check_orand(meta1, meta2));
 	else if (check_pipe(meta1))
 		return (PIPE);
-	else if (check_opt(meta1, meta2))
-		return (OPT);
 	else if (check_redir(meta1, meta2))
 		return (check_redir(meta1, meta2));
 	else if (meta1 == QUOTE)

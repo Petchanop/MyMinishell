@@ -12,29 +12,6 @@
 
 #include "../minishell.h"
 
-void	print_cmd(t_cmd *lst_cmd)
-{
-	int		i;
-	int		j;
-	t_cmd	*lst;
-
-	j = 0;
-	lst = lst_cmd;
-	while (lst)
-	{
-		dprintf(2, "cmd[%d] : %s\n", j, lst->cmd);
-		dprintf(2, "flag[%d] : %d\n", j, lst->flag);
-		i = 0;
-		while (lst->argv[i])
-		{
-			dprintf(2, "arg : %s\n", lst->argv[i]);
-		i++;
-		}
-		j++;
-		lst = lst->next;
-	}
-}
-
 void	pipe_cmd(t_cmd *cmd, int *pipefd)
 {
 	dup2(g_all.fds, STDIN_FILENO);
@@ -111,8 +88,7 @@ void	re_append(t_cmd **cmd)
 			close(g_all.redir);
 		}
 	}
-	if ((*cmd)->next != NULL)
-		dup2(0, g_all.redir);
+	dup2(0, g_all.redir);
 }
 
 void	close_fd(t_cmd *cmd, int *pipefd)
@@ -136,7 +112,6 @@ void	execute(t_cmd *cmd)
 	i = 0;
 	if (cmd && cmd->next && cmd->next->flag == PIPE)
 		pipe(pipefd);
-	// print_cmd(cmd);
 	if (is_builtin(cmd))
 		return ;
 	process = fork();
@@ -147,15 +122,18 @@ void	execute(t_cmd *cmd)
 		pipe_cmd(cmd, pipefd);
 		re_append(&cmd);
 		redir_heredoc(&cmd);
-		while (cmd->argv[i] && !assign_pathcmd(cmd, cmd->argv[i]))
-			i++;
-		if (!assign_pathcmd(cmd, cmd->argv[i]))
+		if (cmd->argv)
 		{
-			perror("command not found");
-			exit(1);
+			while (cmd->argv[i] && !assign_pathcmd(cmd, cmd->argv[i]))
+				i++;
+			if (!assign_pathcmd(cmd, cmd->argv[i]))
+			{
+				perror("command not found");
+				exit(1);
+			}
+			if (execve(cmd->argv[0], &cmd->argv[i], cmd->env) == -1)
+				perror("execve error");
 		}
-		if (execve(cmd->argv[0], &cmd->argv[i], cmd->env) == -1)
-			perror("execve error");
 	}
 	close_fd(cmd, pipefd);
 }

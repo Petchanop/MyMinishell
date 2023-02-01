@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/25 18:51:12 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:13:14 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,6 @@ int	check_ifredir(char *param)
 	if (find_index(param, HEREDOC) >= 0)
 		return (find_index(param, HEREDOC));
 	return (-1);
-}
-
-char	*arrange_cmd(char *param)
-{
-	int	meta;
-	int	arg;
-	int	next_arg;
-
-	meta = check_ifredir(param);
-	arg = check_arg(param[meta], param[meta + 1]);
-	printf("\nparam : %s\nmeta : %d\narg : %d\n", &param[meta], meta, arg);
-	if (meta >= 0 && !checkin_quote(param, meta))
-	{
-		if (arg == REDIR_OUT || arg == APPEND)
-		{
-			next_arg = find_nextarg(&param[meta]);
-			while (ft_isspace(param[meta + next_arg]) && param[meta + next_arg])
-				meta++;
-			if (check_arg(param[meta + next_arg], param[meta + next_arg + 1]))
-				return (param);
-			printf("next arg : %s\n", &param[meta + next_arg]);
-		}
-		return (param);
-	}
-	else
-		return (param);
 }
 
 void	gettoken(char *param, t_token *cmd)

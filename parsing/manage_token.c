@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 21:24:25 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/24 21:30:39 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/29 20:46:18 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ char	*assign_token(char *param, t_token *cmd, int i)
 		j++;
 	}
 	token[j] = '\0';
-	if (j > 1 && (token[0] == QUOTE || token[0] == DOUBLE_QUOTE))
+	if (token[0] == cmd->flag)
 	{
-		if (token[j - 1] == QUOTE || token[j - 1] == DOUBLE_QUOTE)
-		{
-			cmd->flag = ARG;
+		i = 1;
+		while (token[i] != cmd->flag && token[i])
+			i++;
+		if (token[i] == cmd->flag)
 			cmd->track = 0;
-		}
 	}
 	cmd->input = &param[j];
 	return (token);

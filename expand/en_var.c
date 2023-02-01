@@ -1,68 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   en_var.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 13:41:51 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/29 01:02:15 by npiya-is         ###   ########.fr       */
+/*   Created: 2023/02/02 00:46:05 by npiya-is          #+#    #+#             */
+/*   Updated: 2023/02/02 01:20:51 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_isspace(char c)
-{
-	return (c < 33);
-}
-
-char	*trim_space(char *param)
+int	find_envars(char *token)
 {
 	int	i;
 
 	i = 0;
-	while (ft_isspace(param[i]) && param[i] != '\0')
-		i++;
-	return (&param[i]);
-}
-
-char	*trim_character(char *param)
-{
-	int	i;
-
-	i = 0;
-	while (!ft_isspace(param[i]) && param[i])
-		i++;
-	return (&param[i]);
-}
-
-int	find_index(char *param, int meta)
-{
-	int	i;
-
-	i = 0;
-	while (param[i])
+	while (token[i])
 	{
-		if (check_arg(param[i], param[i + 1]) == meta)
+		if (token[i] == EN_VAR)
 			break ;
 		i++;
 	}
-	if (!param[i])
-		return (-1);
 	return (i);
 }
 
-int	find_nextarg(char *str)
+int	find_dquoteindex(char *token)
 {
 	int	i;
 
 	i = 0;
-	while (!ft_isspace(str[i]) && str[i])
+	while (token[i])
+	{
+		if (token[i] == DOUBLE_QUOTE)
+			break ;
 		i++;
-	while (ft_isspace(str[i]) && str[i])
+	}
+	return (i);
+}
+
+int	find_quoteindex(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == QUOTE)
+			break ;
 		i++;
-	while (!ft_isspace(str[i]) && str[i] && !check_arg(str[i], str[i + 1]))
+	}
+	return (i);
+}
+
+int	envar_len(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isalnum(token[i]) && token[i])
 		i++;
 	return (i);
 }

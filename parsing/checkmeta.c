@@ -12,15 +12,6 @@
 
 #include "../minishell.h"
 
-int	check_meta(char meta)
-{
-	if (meta == QUOTE)
-		return (QUOTE);
-	else if (meta == DOUBLE_QUOTE)
-		return (DOUBLE_QUOTE);
-	return (0);
-}
-
 char	*split_quote(char *param)
 {
 	int		size;

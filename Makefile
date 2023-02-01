@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/01/27 11:56:48 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/02 01:21:16 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ LIBS= -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline -L 
 PARS_DIR= parsing/
 PIPE_DIR= Pipe/
 BUILTIN_DIR = builtin/
+EXPAND_DIR= expand/
 
 SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)parsing_utils.c \
@@ -34,6 +35,8 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PIPE_DIR)manage_args.c \
 	$(PIPE_DIR)redir.c \
 	$(BUILTIN_DIR)isbuiltin.c \
+	$(EXPAND_DIR)expander.c \
+	$(EXPAND_DIR)en_var.c \
 	
 SRCS = main_shell.c \
 	execute.c \

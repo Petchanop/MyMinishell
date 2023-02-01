@@ -6,12 +6,36 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/27 11:48:01 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/31 23:24:55 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
+
+void	print_cmd(t_cmd *lst_cmd)
+{
+	int		i;
+	int		j;
+	t_cmd	*lst;
+
+	j = 0;
+	lst = lst_cmd;
+	while (lst)
+	{
+		dprintf(2, "cmd[%d] : %s\n", j, lst->cmd);
+		dprintf(2, "flag[%d] : %d\n", j, lst->flag);
+		i = 0;
+		while (lst->argv && lst->argv[i])
+		{
+			dprintf(2, "argv[%d] : %s\n", j, lst->argv[i]);
+			i++;
+		}
+		j++;
+		lst = lst->next;
+	}
+	lst = NULL;
+}
 
 char	*get_current_path(char *cwd)
 {
@@ -28,8 +52,8 @@ void	print_token(t_token *cmd)
 	while (cmd)
 	{
 		printf("token : %s\n", cmd->token);
-		// printf("input : %s\n", cmd->input);
 		printf("flag   : %d\n", cmd->flag);
+		printf("track   : %d\n", cmd->track);
 		cmd = cmd->right;
 	}
 }
@@ -37,10 +61,12 @@ void	print_token(t_token *cmd)
 void	ft_free(t_cmd *cmd)
 {
 	t_cmd	*fr;
+	int		i;
+
+	i = 0;
 	while (cmd)
 	{
 		fr = cmd;
-		int	i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
 			free(cmd->argv[i]);
@@ -105,21 +131,20 @@ int	main(int argc, char **argv, char **envp)
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);
 			parsing(arg, envp, cmd);
-			lst_cmd = malloc(sizeof(t_cmd));
-			build_cmd(lst_cmd, cmd, envp);
-			assign_argv(lst_cmd, envp);
-			execute_cmd(lst_cmd);
-			// int i = 0;
-			// while (envp[i])
-			// {
-			// 	printf("%s\n", envp[i]);
-			// 	i++;
-			// }
-			free(prompt);
-			cwd = getcwd(argv[1], 0);
-			prompt = get_current_path(cwd);
+			if (cmd->input)
+			{
+				lst_cmd = malloc(sizeof(t_cmd));
+				// print_token(cmd);
+				build_cmd(lst_cmd, cmd, envp);
+				assign_argv(lst_cmd, envp);
+				print_cmd(lst_cmd);
+				execute_cmd(lst_cmd);
+				cwd = getcwd(argv[1], 0);
+				free(prompt);
+				prompt = get_current_path(cwd);
+				// ft_free(lst_cmd);
+			}
 			free(arg);
-			ft_free(lst_cmd);
 		}
 		rl_clear_history();
 	}

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:55:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/25 18:50:58 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:46:03 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	initialize_cmd(t_cmd *cmd, char **env)
 	cmd->cmd = malloc(sizeof(char));
 	cmd->cmd[0] = '\0';
 	cmd->flag = 0;
+	cmd->argv = malloc(sizeof(char *));
+	cmd->argv[0] = NULL;
 	cmd->next = NULL;
 	cmd->env = env;
 }
@@ -52,23 +54,19 @@ t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 	}
 	else
 	{
-		lst_cmd->cmd = ft_strjoin(lst_cmd->cmd, cmd->token);
+		cmd->token = check_envar(cmd->token, envp);
+		lst_cmd->cmd = join(lst_cmd->cmd, cmd->token);
+		lst_cmd->cmd = join(lst_cmd->cmd, "\a");
 		lst_cmd->flag = cmd->flag;
-		if (cmd->right && (cmd->flag != OPT && cmd->flag != DOUBLE_QUOTE))
-			lst_cmd->cmd = ft_strjoin(lst_cmd->cmd, " ");
 	}
 	return (lst_cmd);
 }
 
 void	assign_argv(t_cmd *lst, char **envp)
 {
-	int	size;
-
-	size = 0;
 	while (lst)
 	{
-		size = calculate_size(lst->cmd);
-		lst->argv = create_argv(lst->cmd, size);
+		lst->argv = ft_split(lst->cmd, '\a');
 		lst->env = envp;
 		lst = lst->next;
 	}

@@ -6,11 +6,57 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:28:13 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/24 21:30:26 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/31 16:47:38 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	count_tokensize(char *param, t_token *cmd)
+{
+	int	i;
+	int	sign;
+
+	i = 0;
+	sign = cmd->flag;
+	if (cmd->left && (cmd->track < 0 || cmd->left->track < 0))
+	{
+		i++;
+		while (param[i] && sign != check_arg(param[i], param[i + 1]))
+			i++;
+		i++;
+		while (param[i] >= 33 && param[i])
+			i++;
+	}
+	else
+	{
+		while (!check_arg(param[i], param[i + 1]) && !ft_isspace(param[i]))
+			i++;
+		sign = check_arg(param[i], param[i + 1]);
+		if (sign == DOUBLE_QUOTE || sign == QUOTE)
+		{
+			i++;
+			while (param[i] && sign != check_arg(param[i], param[i + 1]))
+				i++;
+			i++;
+			while (param[i] >= 33 && param[i])
+				i++;
+		}
+	}
+	return (i);
+}
+
+void	assign_track(int arg, t_token *cmd)
+{
+	if (cmd->left->track == -1)
+		cmd->track = -1;
+	else if (cmd->left->track == -2)
+		cmd->track = -2;
+	else if (arg == QUOTE)
+		cmd->track = -1;
+	else if (arg == DOUBLE_QUOTE)
+		cmd->track = -2;
+}
 
 void	assign_nexttoken(t_token *cmd)
 {
@@ -23,33 +69,38 @@ void	assign_nexttoken(t_token *cmd)
 	cmd->right->flag = 0;
 }
 
-void	track_quote(char *param, t_token *cmd)
+void	track_quote(int arg, t_token *cmd)
 {
-	if (check_arg(param[0], param[1]) == QUOTE
-		|| check_arg(param[0], param[1]) == DOUBLE_QUOTE)
+	if (arg == QUOTE && cmd->left->track == -1)
 	{
-		cmd->flag = check_arg(param[0], param[1]);
+		cmd->flag = arg;
+		cmd->track = 0;
+	}
+	else if (arg == DOUBLE_QUOTE && cmd->left->track == -2)
+	{
+		cmd->flag = arg;
 		cmd->track = 0;
 	}
 	else
 	{
 		cmd->flag = cmd->left->flag;
-		cmd->track = 1;
+		cmd->track = cmd->left->track;
 	}
 }
 
 void	assign_flag(char *param, t_token *cmd)
 {
+	int	arg;
+
+	arg = check_arg(param[0], param[1]);
 	if (cmd->left)
 	{
-		if (cmd->left->track == 1)
-			track_quote(param, cmd);
-		else if (check_arg(param[0], param[1]))
+		if (cmd->left->track < 0)
+			track_quote(arg, cmd);
+		else if (arg)
 		{
-			cmd->flag = check_arg(param[0], param[1]);
-			if (check_arg(param[0], param[1]) == QUOTE
-				|| check_arg(param[0], param[1]) == DOUBLE_QUOTE)
-				cmd->track = -1;
+			cmd->flag = arg;
+			assign_track(arg, cmd);
 		}
 		else if (cmd->left->flag == CMD || cmd->left->flag == ARG
 			|| cmd->left->flag == QUOTE || cmd->left->flag == DOUBLE_QUOTE)
@@ -59,8 +110,8 @@ void	assign_flag(char *param, t_token *cmd)
 	}
 	else
 	{
-		if (check_arg(param[0], param[1]))
-			cmd->flag = check_arg(param[0], param[1]);
+		if (arg)
+			cmd->flag = arg;
 		else
 			cmd->flag = CMD;
 	}
@@ -69,14 +120,10 @@ void	assign_flag(char *param, t_token *cmd)
 char	*find_token(char *param, t_token *cmd)
 {
 	int		i;
-	int		j;
 	char	*token;
 
-	i = 0;
-	j = 0;
-	while (!check_arg(param[i], param[i + 1]) && !ft_isspace(param[i]))
-		i++;
 	assign_flag(param, cmd);
+	i = count_tokensize(param, cmd);
 	if (i == 0)
 	{
 		if (check_arg(param[i], param[i + 1]) == AND

@@ -36,21 +36,9 @@ char	*copy_noquote(char *param, int index)
 	return (temp);
 }
 
-int	find_meta(char *param)
-{
-	int	i;
-
-	i = 0;
-	while (!check_meta(param[i]) && param[i])
-		i++;
-	if (!param[i])
-		return (-1);
-	return (i);
-}
-
 void	build_token(t_token *cmd, char **envp)
 {
-	if (cmd->input != NULL)
+	if (cmd->input[0] != '\0')
 	{
 		assign_nexttoken(cmd);
 		parsing(cmd->input, envp, cmd->right);
@@ -66,14 +54,19 @@ t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 
 	initialize_cmd(lst_cmd, envp);
 	ret = lst_cmd;
-	while (cmd->right)
+	while (cmd)
 	{
+		if (cmd->flag == DOUBLE_QUOTE || cmd->flag == QUOTE)
+			cmd->track = 1;
 		lst_cmd = assign_cmd(lst_cmd, cmd, envp);
 		tmp = cmd;
 		cmd = cmd->right;
+		if (cmd && (cmd->flag == DOUBLE_QUOTE || cmd->flag == QUOTE))
+			cmd->track = 0;
+		else if (cmd && (cmd->left->track == 1))
+			cmd->track = 1;
 		free(tmp->token);
 		free(tmp);
 	}
-	free(cmd);
 	return (ret);
 }

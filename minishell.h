@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/26 22:58:58 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/02 01:20:45 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ typedef struct s_cmd
 
 extern char	**environ;
 
-void	assign_argv(t_cmd *lst, char **envp);
 t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
+void	assign_argv(t_cmd *lst, char **envp);
 void	assign_flag(char *param, t_token *cmd);
 void	assign_nexttoken(t_token *cmd);
 void	build_token(t_token *cmd, char **envp);
@@ -78,6 +78,7 @@ void	remove_cmd(t_cmd **cmd, t_cmd *rem);
 void	shift_inheredoc(t_cmd **cmd);
 void	shift_path(char *path);
 void	shift_reappend(t_cmd **cmd);
+void	execute_cmd(t_cmd *lst_cmd);
 int		argv_len(char **arg);
 int		check_flag(int flag);
 int		ft_isspace(char c);
@@ -85,15 +86,17 @@ int		check_pipe(char arg);
 int		check_orcmd(char arg1, char arg2);
 int		check_meta(char meta);
 int		check_arg(char meta1, char meta2);
-int		calculate_size(char *param);
-int		find_arglen(char *param);
 int		find_meta(char *param);
 int		find_index(char *param, int meta);
 int		find_nextarg(char *param);
 int		cd_implement(t_cmd *cmd);
 int		is_builtin(t_cmd *cmd);
-int		execute_cmd(t_cmd *lst_cmd);
 int		assign_pathcmd(t_cmd *cmd, char *command);
+int		size_argquote(char *param, int sign);
+int		find_envars(char *token);
+int		find_dquoteindex(char *token);
+int		find_quoteindex(char *token);
+int		envar_len(char *token);
 char	*arrange_cmd(char *param);
 char	*assign_token(char *param, t_token *cmd, int i);
 char	*trim_character(char *param);
@@ -107,6 +110,7 @@ char	*build_quotecmd(t_token *cmd, char *argv);
 char	*find_path(t_cmd *cmd);
 char	**create_argv(char *param, int size);
 char	**argv_join(char **arg1, char **arg2);
+char	*check_envar(char *token, char **envp);
 t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 
 #endif

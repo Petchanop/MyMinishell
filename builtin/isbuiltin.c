@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 22:08:42 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/27 12:13:57 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/01/29 22:41:02 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	cd_implement(t_cmd *cmd)
 
 int	is_builtin(t_cmd *cmd)
 {
-	// print_cmd(cmd);
-	if (cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "cd", 3))
+	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "cd", 3))
 		return (cd_implement(cmd));
 	return (0);
 }
