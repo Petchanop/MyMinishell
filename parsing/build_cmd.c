@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:55:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/01 22:46:03 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:24:12 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,6 @@ void	initialize_cmd(t_cmd *cmd, char **env)
 	cmd->argv[0] = NULL;
 	cmd->next = NULL;
 	cmd->env = env;
-}
-
-char	*build_quotecmd(t_token *cmd, char *argv)
-{
-	if (cmd != NULL)
-	{
-		if (!check_flag(cmd->flag))
-			argv = join(argv, cmd->token);
-		return (argv);
-	}
-	else
-		return (NULL);
 }
 
 t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
@@ -54,9 +42,14 @@ t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 	}
 	else
 	{
-		cmd->token = check_envar(cmd->token, envp);
-		lst_cmd->cmd = join(lst_cmd->cmd, cmd->token);
-		lst_cmd->cmd = join(lst_cmd->cmd, "\a");
+		cmd->token = check_envar(cmd->token);
+		if (cmd->track)
+		{
+			lst_cmd->cmd = free_str(lst_cmd->cmd, cmd->token, &ft_strjoin);
+			lst_cmd->cmd = free_str(lst_cmd->cmd, "\a", &ft_strjoin);
+		}
+		else
+			lst_cmd->cmd = free_str(lst_cmd->cmd, cmd->token, &ft_strjoin);
 		lst_cmd->flag = cmd->flag;
 	}
 	return (lst_cmd);

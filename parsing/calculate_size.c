@@ -6,26 +6,23 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/31 22:27:23 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/03 20:59:32 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <string.h>
 
-char	*copy_meta(char	*param)
+char	*copy_meta(char	*param, int sign)
 {
 	int		i;
 	int		j;
 	int		k;
-	int		sign;
 	char	*copy;
 
 	j = 0;
 	k = 0;
-
-	sign = find_meta(param);
-	i = size_argquote(param, sign);
+	i = size_argquote(param, sign) + 1;
 	copy = malloc((i) * sizeof(char));
 	while (j < i)
 	{
@@ -37,6 +34,7 @@ char	*copy_meta(char	*param)
 		j++;
 	}
 	copy[k] = '\0';
+	free(param);
 	return (copy);
 }
 
@@ -55,21 +53,49 @@ char	*copy_arg(char *param, int len)
 	copy[i] = '\0';
 	return (copy);
 }
-/*
-int	main(void)
-{
-	char	**split = NULL;
-	int		size = 0;
-	int		i = 0;
-	//char	*str = "test1 \"test2 test3 \" test4 test5 \"test6 \t\"";
-	char	*str1 = "test1 test2test3 \"test4 test5 test6\t\"";
 
-	size = calculate_size(str1);
-	printf("size : %d\n", size);
-	split = create_argv(str1, size);
-	while (split[i])
+char	*copy_envar(char *token, int sign, int size)
+{
+	int		i;
+	int		j;
+	int		k;
+	int		var_idx;
+	char	*copy;
+	char	*en_var;
+
+	j = 0;
+	k = 0;
+	i = ft_strlen(token);
+	copy = malloc((i + size + 1) * sizeof(char));
+	while (token[j])
 	{
-		printf("%s\n", split[i]);
-		i++;
+		if (token[j] && token[j] == EN_VAR)
+		{
+			var_idx = envar_len(&token[j + 1]);
+			en_var = ft_substr(token, j + 1, var_idx);
+			if (getenv(en_var))
+				en_var = getenv(en_var);
+			else
+				en_var = ft_strdup("");
+			while (*en_var)
+				copy[k++] = *en_var++;
+			j += var_idx;
+		}
+		else if (token[j] && token[j] != sign)
+			copy[k++] = token[j];
+		j++;
 	}
+	copy[k] = '\0';
+	return (copy);
+}
+
+/*int	main(void)
+{
+	char *token = "for test$tentnarin";
+	char *en_var = "envar";
+	int sign = DOUBLE_QUOTE;
+	char *ret = copy_envar(token, en_var, sign);
+	printf("%s\n", ret);
 }*/
+
+//gcc -Wall -Werror -Wextra -o var parsing/calculate_size.c expand/expander.c  expand/en_var.c parsing/parsing_utils.c parsing/checkcmd.c -L libft -lft

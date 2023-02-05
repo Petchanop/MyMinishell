@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:28:13 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/31 16:47:38 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/03 00:56:45 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	count_tokensize(char *param, t_token *cmd)
 		while (param[i] && sign != check_arg(param[i], param[i + 1]))
 			i++;
 		i++;
-		while (param[i] >= 33 && param[i])
-			i++;
 	}
 	else
 	{
@@ -39,8 +37,6 @@ int	count_tokensize(char *param, t_token *cmd)
 			while (param[i] && sign != check_arg(param[i], param[i + 1]))
 				i++;
 			i++;
-			while (param[i] >= 33 && param[i])
-				i++;
 		}
 	}
 	return (i);

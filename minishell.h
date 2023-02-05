@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/02 01:20:45 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:51:57 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	assign_flag(char *param, t_token *cmd);
 void	assign_nexttoken(t_token *cmd);
 void	build_token(t_token *cmd, char **envp);
 void	execute(t_cmd *cmd);
-void	free_cmd(t_cmd *cmd);
+void	free_cmd(t_token *cmd);
 void	gettoken(char *param, t_token *cmd);
 void	initialize_cmd(t_cmd *cmd, char **env);
 void	parsing(char *arg, char **envp, t_token *cmd);
@@ -94,23 +94,25 @@ int		is_builtin(t_cmd *cmd);
 int		assign_pathcmd(t_cmd *cmd, char *command);
 int		size_argquote(char *param, int sign);
 int		find_envars(char *token);
-int		find_dquoteindex(char *token);
-int		find_quoteindex(char *token);
+int		find_quoteindex(char *token, char sign);
 int		envar_len(char *token);
+int		envartoken_size(char *token);
+int		envar_size(char *token);
+int		echo_implement(t_cmd *cmd);
 char	*arrange_cmd(char *param);
 char	*assign_token(char *param, t_token *cmd, int i);
 char	*trim_character(char *param);
 char	*arrange_cmd(char *param);
 char	*trim_space(char *param);
-char	*join(const char *s1, const char *s2);
 char	*find_token(char *param, t_token *cmd);
-char	*copy_meta(char	*param);
+char	*copy_meta(char	*param, int sign);
 char	*copy_arg(char *param, int len);
-char	*build_quotecmd(t_token *cmd, char *argv);
 char	*find_path(t_cmd *cmd);
 char	**create_argv(char *param, int size);
 char	**argv_join(char **arg1, char **arg2);
-char	*check_envar(char *token, char **envp);
+char	*check_envar(char *token);
+char	*copy_envar(char *token, int sign, int size);
+char	*free_str(char *a, char *b, char *(*f)(const char *, const char *));
 t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 
 #endif

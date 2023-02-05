@@ -49,24 +49,14 @@ void	build_token(t_token *cmd, char **envp)
 
 t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 {
-	t_token	*tmp;
 	t_cmd	*ret;
 
 	initialize_cmd(lst_cmd, envp);
 	ret = lst_cmd;
 	while (cmd)
 	{
-		if (cmd->flag == DOUBLE_QUOTE || cmd->flag == QUOTE)
-			cmd->track = 1;
 		lst_cmd = assign_cmd(lst_cmd, cmd, envp);
-		tmp = cmd;
 		cmd = cmd->right;
-		if (cmd && (cmd->flag == DOUBLE_QUOTE || cmd->flag == QUOTE))
-			cmd->track = 0;
-		else if (cmd && (cmd->left->track == 1))
-			cmd->track = 1;
-		free(tmp->token);
-		free(tmp);
 	}
 	return (ret);
 }

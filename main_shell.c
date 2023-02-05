@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/31 23:24:55 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/05 16:27:32 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,19 @@ void	print_cmd(t_cmd *lst_cmd)
 char	*get_current_path(char *cwd)
 {
 	char	*prompt;
+	char	*tmp;
 
-	prompt = join(join(CYANBG, cwd), ">");
-	prompt = join(prompt, RESET);
-	prompt = join(prompt, " ");
+	tmp = ft_strjoin(CYANBG, cwd);
+	prompt = ft_strjoin(tmp, ">");
+	free(tmp);
+	tmp = prompt;
+	prompt = ft_strjoin(prompt, RESET);
+	free(tmp);
+	tmp = prompt;
+	prompt = ft_strjoin(prompt, " ");
+	free(tmp);
+	tmp = cwd;
+	free(tmp);
 	return (prompt);
 }
 
@@ -63,10 +72,10 @@ void	ft_free(t_cmd *cmd)
 	t_cmd	*fr;
 	int		i;
 
-	i = 0;
 	while (cmd)
 	{
 		fr = cmd;
+		i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
 			free(cmd->argv[i]);
@@ -86,26 +95,6 @@ void	initilize_token(t_token *cmd)
 	cmd->token = NULL;
 	cmd->flag = 0;
 	cmd->track = 0;
-}
-
-char	*join(const char *s1, const char *s2)
-{
-	char	*result;
-	size_t	len1;
-	size_t	len2;
-
-	if (s1 == NULL)
-		len1 = 0;
-	else
-		len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	result = malloc(len1 + len2 + 1);
-	if (result)
-	{
-		strcpy(result, s1);
-		strcat(result, s2);
-	}
-	return (result);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -136,16 +125,20 @@ int	main(int argc, char **argv, char **envp)
 				lst_cmd = malloc(sizeof(t_cmd));
 				// print_token(cmd);
 				build_cmd(lst_cmd, cmd, envp);
+				free_cmd(cmd);
 				assign_argv(lst_cmd, envp);
-				print_cmd(lst_cmd);
+				// print_cmd(lst_cmd);
 				execute_cmd(lst_cmd);
 				cwd = getcwd(argv[1], 0);
 				free(prompt);
 				prompt = get_current_path(cwd);
-				// ft_free(lst_cmd);
+				ft_free(lst_cmd);
+				lst_cmd = NULL;
 			}
 			free(arg);
 		}
+		free(prompt);
+		free(cwd);
 		rl_clear_history();
 	}
 	return (0);

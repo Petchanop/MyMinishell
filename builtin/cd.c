@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 21:30:45 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/26 22:28:52 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/04 15:31:00 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int	cd_implement(t_cmd *cmd)
 		perror("Path not found");
 		exit(1);
 	}
-	return (0);
+	return (1);
 }

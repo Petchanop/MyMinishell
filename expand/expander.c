@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 18:00:00 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/02 01:26:23 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:3 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,26 @@
 int	size_argquote(char *param, int sign)
 {
 	int		i;
+	int		j;
 
-	i = 1;
-	while (param[i] != sign && param[i])
-		i++;
-	i++;
-	while (!ft_isspace(param[i]) && param[i])
-		i++;
+	i = 0;
+	j = 0;
+	while (param[j] && !ft_isspace(param[j]))
+	{
+		if (sign == DOUBLE_QUOTE)
+		{
+			if (param[j] != sign && param[j] != EN_VAR)
+				i++;
+		}
+		else if (sign == QUOTE)
+		{
+			if (param[j] != sign)
+				i++;
+		}
+		else
+			i++;
+		j++;
+	}
 	return (i);
 }
 
@@ -46,51 +59,22 @@ int	find_meta(char *param)
 	return (check_meta(param[i]));
 }
 
-char	*check_envar(char *token, char **envp)
+char	*check_envar(char *token)
 {
-	char	*en_var;
 	int		var_idx;
-	int		dquote_idx;
 	int		quote_idx;
-	int		i;
-	int		j;
+	int		sign;
+
 
 	var_idx = find_envars(token);
-	dquote_idx = find_dquoteindex(token);
-	quote_idx = find_quoteindex(token);
-	printf("D : %d , Q : %d\n", dquote_idx, quote_idx);
-	if (quote_idx < dquote_idx
-		|| (!token[quote_idx] && !token[dquote_idx]) || !token[var_idx])
-		return (token);
-	var_idx++;
-	en_var = ft_substr(token, var_idx, envar_len(&token[var_idx]));
-	i = 0;
-	while (envp[i])
-	{
-		if (!ft_strncmp(envp[i], en_var, ft_strlen(en_var)))
-			break ;
-		i++;
-	}
-	free(en_var);
-	if (!envp[i])
-		return (ft_strdup(""));
-	j = 0;
-	while (envp[i][j] && envp[i][j] != '=')
-		j++;
-	j++;
-	if (envp[i][j])
-	{
-		en_var = ft_strdup(&envp[i][j]);
-		// int k = 0;
-		// en_var = malloc(sizeof(char) * (j + 1));
-		// while (envp[i][j])
-		// {
-		// 	en_var[k] = envp[i][j];
-		// 	k++;
-		// 	j++;
-		// }
-		// en_var[k] = '\0';
-		free(token);
-	}
-	return (en_var);
+	sign = find_meta(token);
+	if (sign != -1)
+		quote_idx = find_quoteindex(token, sign);
+	if (var_idx < 0 && (sign == QUOTE || sign == DOUBLE_QUOTE))
+		return (copy_meta(token, sign));
+	if (sign == QUOTE)
+		return (copy_meta(token, sign));
+	var_idx = envar_size(token);
+	token = copy_envar(token, sign, var_idx);
+	return (token);
 }

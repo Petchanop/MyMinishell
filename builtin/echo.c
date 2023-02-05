@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 17:56:39 by npiya-is         ###   ########.fr       */
+/*   Created: 2023/02/04 13:54:38 by npiya-is          #+#    #+#             */
+/*   Updated: 2023/02/04 15:39:48 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	execute_cmd(t_cmd *lst_cmd)
+int	echo_implement(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	char	**argv;
+	int		i;
+	int		nl;
 
-	g_all.fds = dup(0);
-	tmp = lst_cmd;
-	while (lst_cmd)
+	i = 1;
+	nl = 0;
+	argv = cmd->argv;
+	if (argv_len(argv) > 1)
 	{
-		execute(lst_cmd);
-		if (lst_cmd->next && lst_cmd->next->flag == PIPE)
-			lst_cmd = lst_cmd->next;
-		shift_reappend(&lst_cmd);
-		shift_inheredoc(&lst_cmd);
-		lst_cmd = lst_cmd->next;
+		while (argv[i] && ft_strncmp(argv[i], "-n", 3) == 0)
+		{
+			nl = 1;
+			i++;
+		}
+		while (argv[i])
+		{
+			printf("%s", argv[i]);
+			if (argv[i + 1] && argv[i][0] != '\0')
+				printf(" ");
+			i++;
+		}
 	}
-	while (wait(0) != -1 || errno != ECHILD)
-		;
-	dup2(0, g_all.fds);
-	lst_cmd = tmp;
+	if (nl == 0)
+		printf("\n");
+	return (1);
 }
