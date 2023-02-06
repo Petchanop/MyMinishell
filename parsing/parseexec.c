@@ -38,10 +38,17 @@ char	*copy_noquote(char *param, int index)
 
 void	build_token(t_token *cmd, char **envp)
 {
+	t_token	*right;
+
+	right = NULL;
 	if (cmd->input[0] != '\0')
 	{
-		assign_nexttoken(cmd);
-		parsing(cmd->input, envp, cmd->right);
+		right = malloc(sizeof(t_token));
+		initilize_token(right);
+		cmd->right = right;
+		right->left = cmd;
+		// assign_nexttoken(cmd);
+		parsing(cmd->input, envp, right);
 	}
 	else
 		cmd->right = NULL;

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/05 16:27:32 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 00:13:48 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ void	print_cmd(t_cmd *lst_cmd)
 		lst = lst->next;
 	}
 	lst = NULL;
+}
+
+void	sig_handle(int signo, siginfo_t *info, void *ucontext)
+{
+	(void)ucontext;
+	(void)info;
+
+	if (signo == SIGINT)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 char	*get_current_path(char *cwd)
@@ -67,27 +81,6 @@ void	print_token(t_token *cmd)
 	}
 }
 
-void	ft_free(t_cmd *cmd)
-{
-	t_cmd	*fr;
-	int		i;
-
-	while (cmd)
-	{
-		fr = cmd;
-		i = 0;
-		while (cmd->argv && cmd->argv[i])
-		{
-			free(cmd->argv[i]);
-			i++;
-		}
-		free(cmd->argv);
-		free(cmd->cmd);
-		cmd = cmd->next;
-		free(fr);
-	}
-}
-
 void	initilize_token(t_token *cmd)
 {
 	cmd->left = NULL;
@@ -116,6 +109,7 @@ int	main(int argc, char **argv, char **envp)
 		while (1)
 		{
 			arg = readline(prompt);
+			sig_hand_main();
 			add_history(arg);
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);

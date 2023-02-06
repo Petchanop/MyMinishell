@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isbuiltin.c                                        :+:      :+:    :+:   */
+/*   ctrl_c.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 22:08:42 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/06 21:07:21 by npiya-is         ###   ########.fr       */
+/*   Created: 2023/02/06 23:03:53 by npiya-is          #+#    #+#             */
+/*   Updated: 2023/02/06 23:15:56 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_builtin_parent(t_cmd *cmd)
+void	sig_hand_main(void)
 {
-	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "cd", 3))
-		return (cd_implement(cmd));
-	return (0);
-}
+	struct sigaction	sig_quit;
+	struct sigaction	sig_int;
 
-int	is_builtin_child(t_cmd *cmd)
-{
-	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "echo", 5))
-		return (echo_implement(cmd));
-	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "exit", 5))
-		return (1);
-	return (0);
+	sig_quit.sa_handler = SIG_IGN;
+	sig_quit.sa_flags = SA_RESTART;
+	sigemptyset(&sig_quit.sa_mask);
+	sigaction(SIGQUIT, &sig_quit, NULL);
+	sig_int.sa_sigaction = sig_handle;
+	sig_int.sa_flags = SA_SIGINFO;
+	sigemptyset(&sig_int.sa_mask);
+	sigaction(SIGINT, &sig_int, NULL);
 }

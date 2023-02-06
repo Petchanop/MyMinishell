@@ -112,7 +112,7 @@ void	execute(t_cmd *cmd)
 	i = 0;
 	if (cmd && cmd->next && cmd->next->flag == PIPE)
 		pipe(pipefd);
-	if (is_builtin(cmd))
+	if (is_builtin_parent(cmd))
 		return ;
 	process = fork();
 	if (process < 0)
@@ -131,6 +131,8 @@ void	execute(t_cmd *cmd)
 				perror("command not found");
 				exit(1);
 			}
+			if (is_builtin_child(cmd))
+				return ;
 			if (execve(cmd->argv[0], &cmd->argv[i], cmd->env) == -1)
 				perror("execve error");
 		}

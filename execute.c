@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 17:56:39 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/06 21:19:44 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	execute_cmd(t_cmd *lst_cmd)
 		execute(lst_cmd);
 		if (lst_cmd->next && lst_cmd->next->flag == PIPE)
 			lst_cmd = lst_cmd->next;
+		if (lst_cmd->argv && !ft_strncmp(lst_cmd->argv[0], "exit", 5)
+			&& (!lst_cmd->next || (lst_cmd->next && lst_cmd->next->flag != PIPE)))
+		{
+			write(1, "exit\n", 5);
+			ft_free(lst_cmd);
+			exit(0);
+		}
 		shift_reappend(&lst_cmd);
 		shift_inheredoc(&lst_cmd);
 		lst_cmd = lst_cmd->next;

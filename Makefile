@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/02/04 15:38:05 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/06 23:31:42 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,13 @@ CC= gcc
 
 CFLAGS= -g -Wall -Werror -Wextra
 
-LIBS= -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline -L libft -lft
+LIBS= -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline -L libft -lft
 
 PARS_DIR= parsing/
 PIPE_DIR= Pipe/
 BUILTIN_DIR = builtin/
 EXPAND_DIR= expand/
+SIGNAL_DIR= signal/
 
 SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)parsing_utils.c \
@@ -39,6 +40,7 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(BUILTIN_DIR)echo.c \
 	$(EXPAND_DIR)expander.c \
 	$(EXPAND_DIR)en_var.c \
+	$(SIGNAL_DIR)ctrl_c.c \
 	
 SRCS = main_shell.c \
 	execute.c \

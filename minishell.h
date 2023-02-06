@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 17:51:57 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:38:10 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <termios.h>
 # include "libft/libft.h"
 # include "token.h"
 # include "color.h"
 
 int fds;
-int	redir;
+int redir;
 
 typedef struct s_global
 {
@@ -68,8 +69,10 @@ void	assign_nexttoken(t_token *cmd);
 void	build_token(t_token *cmd, char **envp);
 void	execute(t_cmd *cmd);
 void	free_cmd(t_token *cmd);
+void	ft_free(t_cmd *cmd);
 void	gettoken(char *param, t_token *cmd);
 void	initialize_cmd(t_cmd *cmd, char **env);
+void	initilize_token(t_token *cmd);
 void	parsing(char *arg, char **envp, t_token *cmd);
 void	print_cmd(t_cmd *lst_cmd);
 void	print_token(t_token *cmd);
@@ -79,6 +82,8 @@ void	shift_inheredoc(t_cmd **cmd);
 void	shift_path(char *path);
 void	shift_reappend(t_cmd **cmd);
 void	execute_cmd(t_cmd *lst_cmd);
+void	sig_handle(int signo, siginfo_t *info, void *ucontext);
+void	sig_hand_main(void);
 int		argv_len(char **arg);
 int		check_flag(int flag);
 int		ft_isspace(char c);
@@ -90,7 +95,8 @@ int		find_meta(char *param);
 int		find_index(char *param, int meta);
 int		find_nextarg(char *param);
 int		cd_implement(t_cmd *cmd);
-int		is_builtin(t_cmd *cmd);
+int		is_builtin_parent(t_cmd *cmd);
+int		is_builtin_child(t_cmd *cmd);
 int		assign_pathcmd(t_cmd *cmd, char *command);
 int		size_argquote(char *param, int sign);
 int		find_envars(char *token);
