@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 00:12:21 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:24:50 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	parsing(char *arg, char **envp, t_token *cmd)
 {
 	if (!arg || !*arg)
 	{
-		// if (!arg)
-		// {
-		// 	write(1, "exit", 5);
-		// 	exit(0);
-		// }
+		if (!arg)
+		{
+			write(1, "exit\n", 5);
+			exit(0);
+		}
 		return ;
 	}
 	cmd->input = arg;

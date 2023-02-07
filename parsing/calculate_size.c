@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 17:00:57 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:40:03 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ char	*copy_envar(char *token, int sign, int size)
 			while (*en_var)
 				copy[k++] = *en_var++;
 			j += var_idx;
-			free(en_var);
-			en_var = NULL;
 		}
 		else if (token[j] && token[j] != sign)
 			copy[k++] = token[j];

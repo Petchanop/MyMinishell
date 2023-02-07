@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 00:46:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 17:26:59 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:44:41 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	envar_size(char *token)
 			envar = ft_substr(token, j, i);
 			envar = getenv(envar);
 			size += ft_strlen(envar);
-			free(envar);
 			j += i;
 		}
 		j++;

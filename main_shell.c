@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 17:28:47 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:37:28 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	(void)info;
 
-	if (signo == SIGINT)
+	if (signo)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
@@ -108,8 +108,8 @@ int	main(int argc, char **argv, char **envp)
 		prompt = get_current_path(cwd);
 		while (1)
 		{
-			arg = readline(prompt);
 			sig_hand_main();
+			arg = readline(prompt);
 			add_history(arg);
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);
