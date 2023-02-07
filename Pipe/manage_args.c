@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:16:22 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 16:02:21 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:52:31 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,6 @@ char	**argv_join(char **arg1, char **arg2)
 
 void	remove_cmd(t_cmd **cmd, t_cmd *rem)
 {
-	t_cmd	*re;
-	int		i;
-
-	i = 0;
-	re = *cmd;
 	if (*cmd == NULL)
 		return ;
 	if ((*cmd) == rem)
@@ -69,9 +64,6 @@ void	remove_cmd(t_cmd **cmd, t_cmd *rem)
 
 void	shift_arg(t_cmd **cmd, int flag)
 {
-	t_cmd	*head;
-
-	head = (*cmd);
 	while ((*cmd)->next && (*cmd)->next->flag == flag)
 		(*cmd) = (*cmd)->next->next;
 }

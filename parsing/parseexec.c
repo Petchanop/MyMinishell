@@ -41,7 +41,7 @@ void	build_token(t_token *cmd, char **envp)
 	t_token	*right;
 
 	right = NULL;
-	if (cmd->input[0] != '\0')
+	if (cmd->input && cmd->input[0] != '\0')
 	{
 		right = malloc(sizeof(t_token));
 		initilize_token(right);

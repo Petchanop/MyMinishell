@@ -62,14 +62,12 @@ int	find_meta(char *param)
 char	*check_envar(char *token)
 {
 	int		var_idx;
-	int		quote_idx;
 	int		sign;
-
 
 	var_idx = find_envars(token);
 	sign = find_meta(token);
-	if (sign != -1)
-		quote_idx = find_quoteindex(token, sign);
+	//if (sign != -1)
+		//quote_idx = find_quoteindex(token, sign);
 	if (var_idx < 0 && (sign == QUOTE || sign == DOUBLE_QUOTE))
 		return (copy_meta(token, sign));
 	if (sign == QUOTE)

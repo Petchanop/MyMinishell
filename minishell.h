@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/06 23:38:10 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:20:24 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # include "token.h"
 # include "color.h"
 
-int fds;
-int redir;
+extern int fds;
+extern int redir;
 
 typedef struct s_global
 {
@@ -38,7 +38,7 @@ typedef struct s_global
 	int		redir;
 }	t_global;
 
-t_global	g_all;
+extern t_global	g_all;
 extern char	**environ;
 
 typedef struct s_token

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:28:13 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/03 00:56:45 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:29:30 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	count_tokensize(char *param, t_token *cmd)
 
 	i = 0;
 	sign = cmd->flag;
+	if (param == NULL)
+		return (i);
 	if (cmd->left && (cmd->track < 0 || cmd->left->track < 0))
 	{
 		i++;
@@ -118,6 +120,8 @@ char	*find_token(char *param, t_token *cmd)
 	int		i;
 	char	*token;
 
+	if (!param)
+		return (NULL);
 	assign_flag(param, cmd);
 	i = count_tokensize(param, cmd);
 	if (i == 0)

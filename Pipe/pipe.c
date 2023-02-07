@@ -12,6 +12,9 @@
 
 #include "../minishell.h"
 
+int	redir;
+int	fds;
+
 void	pipe_cmd(t_cmd *cmd, int *pipefd)
 {
 	dup2(g_all.fds, STDIN_FILENO);

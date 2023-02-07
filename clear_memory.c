@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:33 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/06 19:16:11 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:49:50 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ void	ft_free(t_cmd *cmd)
 
 void	free_cmd(t_token *cmd)
 {
-	int			i;
 	t_token		*tmp;
 
-	i = 0;
 	tmp = NULL;
 	while (cmd)
 	{
