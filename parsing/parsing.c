@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 18:24:50 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:35:10 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_ifredir(char *param)
 
 void	gettoken(char *param, t_token *cmd)
 {
-	if (*param == '\0')
+	if (!param || *param == '\0')
 		return ;
 	if (cmd->left && cmd->left->track != 1)
 		cmd->input = trim_space(param);
@@ -48,16 +48,24 @@ void	gettoken(char *param, t_token *cmd)
 
 void	parsing(char *arg, char **envp, t_token *cmd)
 {
+	char	*tmp;
+	t_token	*right;
+
+	right = NULL;
 	if (!arg || !*arg)
-	{
-		if (!arg)
-		{
-			write(1, "exit\n", 5);
-			exit(0);
-		}
-		return ;
-	}
+		exit_implement(arg, cmd, NULL, envp);
+	tmp = arg;
 	cmd->input = arg;
-	gettoken(arg, cmd);
-	build_token(cmd, envp);
+	while (arg[0])
+	{
+		gettoken(arg, cmd);
+		arg = cmd->input;
+		right = malloc(sizeof(t_token));
+		initilize_token(right);
+		cmd->right = right;
+		right->left = cmd;
+		cmd = cmd->right;
+	}
+	free(tmp);
+	tmp = NULL;
 }

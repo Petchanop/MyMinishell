@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 16:22:08 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/07 21:06:19 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	execute_cmd(t_cmd *lst_cmd)
 			&& (!lst_cmd->next || (lst_cmd->next && lst_cmd->next->flag != PIPE)))
 		{
 			write(1, "exit\n", 5);
-			ft_free(lst_cmd);
+			ft_free(tmp);
 			exit(0);
 		}
 		shift_reappend(&lst_cmd);

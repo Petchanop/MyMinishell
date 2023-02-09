@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:55:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 17:24:12 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/08 23:36:32 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ void	initialize_cmd(t_cmd *cmd, char **env)
 	cmd->cmd = malloc(sizeof(char));
 	cmd->cmd[0] = '\0';
 	cmd->flag = 0;
-	cmd->argv = malloc(sizeof(char *));
-	cmd->argv[0] = NULL;
+	cmd->argv = NULL;
 	cmd->next = NULL;
 	cmd->env = env;
 }
 
 t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 {
-	if (check_flag(cmd->flag))
+	if (cmd && check_flag(cmd->flag))
 	{
 		if (!lst_cmd->flag)
 			lst_cmd->flag = cmd->flag;
@@ -55,12 +54,12 @@ t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 	return (lst_cmd);
 }
 
-void	assign_argv(t_cmd *lst, char **envp)
+void	assign_argv(t_cmd *lst, char **env)
 {
 	while (lst)
 	{
 		lst->argv = ft_split(lst->cmd, '\a');
-		lst->env = envp;
+		lst->env = env;
 		lst = lst->next;
 	}
 }

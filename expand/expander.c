@@ -52,6 +52,8 @@ int	find_meta(char *param)
 	int	i;
 
 	i = 0;
+	if (!param)
+		return (-1);
 	while (!check_meta(param[i]) && param[i] && !ft_isspace(param[i]))
 		i++;
 	if (!param[i])
@@ -66,8 +68,6 @@ char	*check_envar(char *token)
 
 	var_idx = find_envars(token);
 	sign = find_meta(token);
-	//if (sign != -1)
-		//quote_idx = find_quoteindex(token, sign);
 	if (var_idx < 0 && (sign == QUOTE || sign == DOUBLE_QUOTE))
 		return (copy_meta(token, sign));
 	if (sign == QUOTE)

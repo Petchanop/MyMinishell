@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 18:40:03 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:14:46 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,48 +38,38 @@ char	*copy_meta(char	*param, int sign)
 	return (copy);
 }
 
-char	*copy_arg(char *param, int len)
+static	char	*getenv_str(char *token, int start, size_t len)
 {
-	char	*copy;
-	int		i;
+	char	*en_var;
+	char	*var;
 
-	i = 0;
-	copy = malloc((len + 1) * sizeof(char));
-	while (!ft_isspace(param[i]) && param[i] && !check_meta(param[i]))
-	{
-		copy[i] = param[i];
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
+	en_var = ft_substr(token, start, len);
+	var = ft_getenv(en_var);
+	free(en_var);
+	en_var = NULL;
+	return (var);
 }
 
 char	*copy_envar(char *token, int sign, int size)
 {
-	int		i;
+	int		idx;
 	int		j;
 	int		k;
-	int		var_idx;
 	char	*copy;
 	char	*en_var;
 
 	j = 0;
 	k = 0;
-	i = ft_strlen(token);
-	copy = malloc((i + size + 1) * sizeof(char));
+	copy = malloc((ft_strlen(token) + size + 1) * sizeof(char));
 	while (token[j])
 	{
 		if (token[j] && token[j] == EN_VAR)
 		{
-			var_idx = envar_len(&token[j + 1]);
-			en_var = ft_substr(token, j + 1, var_idx);
-			if (getenv(en_var))
-				en_var = getenv(en_var);
-			else
-				en_var = ft_strdup("");
-			while (*en_var)
-				copy[k++] = *en_var++;
-			j += var_idx;
+			idx = envar_len(&token[j + 1]);
+			en_var = getenv_str(token, j + 1, idx);
+			ft_memcpy(&copy[k], en_var, ft_strlen(en_var));
+			k += ft_strlen(en_var);
+			j += idx;
 		}
 		else if (token[j] && token[j] != sign)
 			copy[k++] = token[j];

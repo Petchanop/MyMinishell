@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/02/07 16:13:38 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/09 00:06:09 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,8 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(BUILTIN_DIR)isbuiltin.c \
 	$(BUILTIN_DIR)cd.c \
 	$(BUILTIN_DIR)echo.c \
+	$(BUILTIN_DIR)export.c \
+	$(BUILTIN_DIR)exit.c \
 	$(EXPAND_DIR)expander.c \
 	$(EXPAND_DIR)en_var.c \
 	$(SIGNAL_DIR)ctrl_c.c \
@@ -46,6 +48,7 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 SRCS = main_shell.c \
 	execute.c \
 	clear_memory.c \
+	manage_env.c \
 
 NAME= minishell
 

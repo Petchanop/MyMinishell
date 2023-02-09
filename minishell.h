@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 16:20:24 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:02:40 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ typedef struct s_global
 {
 	int		fds;
 	int		redir;
+	char	**env;
 }	t_global;
 
 extern t_global	g_all;
-extern char	**environ;
 
 typedef struct s_token
 {
@@ -60,13 +60,11 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-extern char	**environ;
-
 t_cmd	*assign_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 void	assign_argv(t_cmd *lst, char **envp);
 void	assign_flag(char *param, t_token *cmd);
 void	assign_nexttoken(t_token *cmd);
-void	build_token(t_token *cmd, char **envp);
+void	build_token(t_token *cmd, char *param);
 void	execute(t_cmd *cmd);
 void	free_cmd(t_token *cmd);
 void	ft_free(t_cmd *cmd);
@@ -84,6 +82,9 @@ void	shift_reappend(t_cmd **cmd);
 void	execute_cmd(t_cmd *lst_cmd);
 void	sig_handle(int signo, siginfo_t *info, void *ucontext);
 void	sig_hand_main(void);
+void	free_split(char **spl);
+void	*ft_realloc(void *ptr, int size);
+void	exit_implement(char *arg, t_token *token, t_cmd *cmd, char **envp);
 int		argv_len(char **arg);
 int		check_flag(int flag);
 int		ft_isspace(char c);
@@ -105,6 +106,8 @@ int		envar_len(char *token);
 int		envartoken_size(char *token);
 int		envar_size(char *token);
 int		echo_implement(t_cmd *cmd);
+int		export_implement(t_cmd *cmd);
+int		env_implement(char **env);
 char	*arrange_cmd(char *param);
 char	*assign_token(char *param, t_token *cmd, int i);
 char	*trim_character(char *param);
@@ -117,7 +120,9 @@ char	*find_path(t_cmd *cmd);
 char	**create_argv(char *param, int size);
 char	**argv_join(char **arg1, char **arg2);
 char	*check_envar(char *token);
+char	*ft_getenv(char *str);
 char	*copy_envar(char *token, int sign, int size);
+char	**copy_env(char **envp);
 char	*free_str(char *a, char *b, char *(*f)(const char *, const char *));
 t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp);
 

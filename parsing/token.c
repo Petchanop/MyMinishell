@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:28:13 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 17:29:30 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:02:37 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_tokensize(char *param, t_token *cmd)
 
 	i = 0;
 	sign = cmd->flag;
-	if (param == NULL)
+	if (!param || !param[0])
 		return (i);
 	if (cmd->left && (cmd->track < 0 || cmd->left->track < 0))
 	{
@@ -30,9 +30,10 @@ int	count_tokensize(char *param, t_token *cmd)
 	}
 	else
 	{
-		while (!check_arg(param[i], param[i + 1]) && !ft_isspace(param[i]))
+		while (param[i] && !check_arg(param[i], param[i + 1]) && !ft_isspace(param[i]))
 			i++;
-		sign = check_arg(param[i], param[i + 1]);
+		if (param[i])
+			sign = check_arg(param[i], param[i + 1]);
 		if (sign == DOUBLE_QUOTE || sign == QUOTE)
 		{
 			i++;
@@ -91,7 +92,7 @@ void	assign_flag(char *param, t_token *cmd)
 	int	arg;
 
 	arg = check_arg(param[0], param[1]);
-	if (cmd->left)
+	if (cmd && cmd->left)
 	{
 		if (cmd->left->track < 0)
 			track_quote(arg, cmd);
@@ -122,8 +123,10 @@ char	*find_token(char *param, t_token *cmd)
 
 	if (!param)
 		return (NULL);
+	i = 0;
 	assign_flag(param, cmd);
-	i = count_tokensize(param, cmd);
+	if (cmd != NULL && cmd->input && cmd->input[0])
+		i = count_tokensize(param, cmd);
 	if (i == 0)
 	{
 		if (check_arg(param[i], param[i + 1]) == AND

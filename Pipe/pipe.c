@@ -131,8 +131,8 @@ void	execute(t_cmd *cmd)
 				i++;
 			if (!assign_pathcmd(cmd, cmd->argv[i]))
 			{
+				dprintf(2, "test\n");
 				perror("command not found");
-				exit(1);
 			}
 			if (is_builtin_child(cmd))
 				return ;

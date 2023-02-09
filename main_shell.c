@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 18:37:28 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:36:30 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_cmd(t_cmd *lst_cmd)
 		i = 0;
 		while (lst->argv && lst->argv[i])
 		{
-			dprintf(2, "argv[%d] : %s\n", j, lst->argv[i]);
+			dprintf(2, "argv[%d] : %s\n", i, lst->argv[i]);
 			i++;
 		}
 		j++;
@@ -41,8 +41,7 @@ void	sig_handle(int signo, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
 	(void)info;
-
-	if (signo)
+	if (signo == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
@@ -67,6 +66,7 @@ char	*get_current_path(char *cwd)
 	free(tmp);
 	tmp = cwd;
 	free(tmp);
+	tmp = NULL;
 	return (prompt);
 }
 
@@ -74,16 +74,19 @@ void	print_token(t_token *cmd)
 {
 	while (cmd)
 	{
+		printf("t_token : %p\n", cmd);
 		printf("token : %s\n", cmd->token);
 		printf("flag   : %d\n", cmd->flag);
 		printf("track   : %d\n", cmd->track);
 		cmd = cmd->right;
 	}
+	printf("last : %p\n", cmd);
 }
 
 void	initilize_token(t_token *cmd)
 {
 	cmd->left = NULL;
+	cmd->right = NULL;
 	cmd->input = NULL;
 	cmd->token = NULL;
 	cmd->flag = 0;
@@ -95,13 +98,12 @@ int	main(int argc, char **argv, char **envp)
 	char	*cwd;
 	char	*prompt;
 	char	*arg;
-	// char 	**envp;
 	t_token	*cmd;
 	t_cmd	*lst_cmd;
 
 	cwd = NULL;
 	cmd = NULL;
-	// envp = environ;
+	g_all.env = copy_env(envp);
 	if (argc >= 1)
 	{
 		cwd = getcwd(argv[1], 0);
@@ -113,14 +115,14 @@ int	main(int argc, char **argv, char **envp)
 			add_history(arg);
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);
-			parsing(arg, envp, cmd);
-			if (cmd->input)
+			parsing(arg, g_all.env, cmd);
+			// print_token(cmd);
+			if (cmd && cmd->input)
 			{
 				lst_cmd = malloc(sizeof(t_cmd));
-				// print_token(cmd);
-				build_cmd(lst_cmd, cmd, envp);
+				build_cmd(lst_cmd, cmd, g_all.env);
 				free_cmd(cmd);
-				assign_argv(lst_cmd, envp);
+				assign_argv(lst_cmd, g_all.env);
 				// print_cmd(lst_cmd);
 				execute_cmd(lst_cmd);
 				cwd = getcwd(argv[1], 0);
@@ -129,7 +131,6 @@ int	main(int argc, char **argv, char **envp)
 				ft_free(lst_cmd);
 				lst_cmd = NULL;
 			}
-			free(arg);
 		}
 		free(prompt);
 		free(cwd);

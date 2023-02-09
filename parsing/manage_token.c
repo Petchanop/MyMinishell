@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 21:24:25 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 18:18:08 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/08 22:18:00 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*assign_token(char *param, t_token *cmd, int i)
 	char	*token;
 
 	j = 0;
+	if (!param || !param[0] || i == 0)
+		return (NULL);
 	token = malloc((i + 1) * sizeof(char));
 	while (j < i)
 	{

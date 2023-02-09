@@ -36,19 +36,19 @@ char	*copy_noquote(char *param, int index)
 	return (temp);
 }
 
-void	build_token(t_token *cmd, char **envp)
+void	build_token(t_token *cmd, char *param)
 {
 	t_token	*right;
 
 	right = NULL;
-	if (cmd->input && cmd->input[0] != '\0')
+	// if (cmd->input && cmd->input[0] != '\0')
+	if (*param)
 	{
 		right = malloc(sizeof(t_token));
 		initilize_token(right);
 		cmd->right = right;
 		right->left = cmd;
-		// assign_nexttoken(cmd);
-		parsing(cmd->input, envp, right);
+		//assign_nexttoken(cmd);
 	}
 	else
 		cmd->right = NULL;
@@ -60,7 +60,7 @@ t_cmd	*build_cmd(t_cmd *lst_cmd, t_token *cmd, char **envp)
 
 	initialize_cmd(lst_cmd, envp);
 	ret = lst_cmd;
-	while (cmd)
+	while (cmd->right)
 	{
 		lst_cmd = assign_cmd(lst_cmd, cmd, envp);
 		cmd = cmd->right;

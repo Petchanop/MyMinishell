@@ -6,11 +6,23 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:33 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 15:49:50 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:03:03 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	*ft_realloc(void *ptr, int size)
+{
+	unsigned char	*new_ptr;
+
+	new_ptr = malloc(size);
+	if (!new_ptr)
+		return (NULL);
+	ft_memcpy(new_ptr, ptr, size);
+	free(ptr);
+	return ((void *)new_ptr);
+}
 
 void	ft_free(t_cmd *cmd)
 {
@@ -20,18 +32,22 @@ void	ft_free(t_cmd *cmd)
 	while (cmd)
 	{
 		fr = cmd;
+		cmd = cmd->next;
 		i = 0;
-		while (cmd->argv && cmd->argv[i])
+		while (fr->argv && fr->argv[i])
 		{
-			free(cmd->argv[i]);
+			free(fr->argv[i]);
+			fr->argv[i] = NULL;
 			i++;
 		}
-		free(cmd->argv);
-		free(cmd->cmd);
-		cmd = cmd->next;
+		free(fr->argv);
+		fr->argv = NULL;
+		free(fr->cmd);
+		fr->cmd = NULL;
 		free(fr);
 	}
 	free(cmd);
+	cmd = NULL;
 }
 
 void	free_cmd(t_token *cmd)
@@ -39,19 +55,18 @@ void	free_cmd(t_token *cmd)
 	t_token		*tmp;
 
 	tmp = NULL;
+	// print_token(cmd);
 	while (cmd)
 	{
 		tmp = cmd;
-		// write(1, tmp->token, ft_strlen(tmp->token));
-		// write(1, "\n", 1);
 		cmd = cmd->right;
 		free(tmp->token);
 		tmp->token = NULL;
 		free(tmp);
 		tmp = NULL;
 	}
-	// tmp = NULL;
 	free(cmd);
+	cmd = NULL;
 }
 
 char	*free_str(char *a, char *b, char *(*f)(const char *, const char *))
@@ -62,6 +77,21 @@ char	*free_str(char *a, char *b, char *(*f)(const char *, const char *))
 	free(a);
 	a = NULL;
 	return (ret);
+}
+
+void	free_split(char **spl)
+{
+	int	i;
+
+	i = 0;
+	while (spl[i])
+	{
+		free(spl[i]);
+		spl[i] = NULL;
+		i++;
+	}
+	free(spl);
+	spl = NULL;
 }
 
 // int	main(void)

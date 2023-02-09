@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 00:46:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 18:44:41 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:07:44 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	find_envars(char *token)
 	int	i;
 
 	i = 0;
-	while (token[i])
+	while (token && token[i])
 	{
 		if (token[i] == EN_VAR)
 			return (i);
@@ -76,27 +76,29 @@ int	envartoken_size(char *token)
 
 int	envar_size(char *token)
 {
-	char 	*envar;
-	int 	i;
-	int 	j;
+	char	*envar;
+	char	*geten;
+	int		i;
+	int		j;
 	int		size;
 
 	j = 0;
 	size = 0;
-	while (token[j])
+	while (token && token[j])
 	{
-		if (token[j] == EN_VAR)
+		if (token[j++] == EN_VAR)
 		{
-			j++;
-			i = 0;
-			while (ft_isalnum(token[j + i]) && token[j + i])
-				i++;
+			i = envar_len(&token[j]);
 			envar = ft_substr(token, j, i);
-			envar = getenv(envar);
-			size += ft_strlen(envar);
+			geten = ft_getenv(envar);
+			if (geten)
+				size += ft_strlen(geten);
+			free(envar);
+			envar = NULL;
 			j += i;
 		}
-		j++;
+		else
+			j++;
 	}
 	return (size);
 }
