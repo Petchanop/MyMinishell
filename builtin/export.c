@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:48:53 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/08 22:10:03 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/10 22:58:59 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,31 @@ int	find_envindex(char *env)
 	return (i);
 }
 
-int	export_implement(t_cmd *cmd)
+void	change_env(char *argv)
 {
 	char	**env;
+	char	**tmp;
+	char	**tmp1;
+
+	env = malloc(sizeof(char *) * 2);
+	env[0] = malloc(sizeof(char) * ft_strlen(argv) + 1);
+	ft_memcpy(env[0], argv, ft_strlen(argv));
+	env[0][ft_strlen(argv)] = '\0';
+	env[1] = NULL;
+	tmp = env;
+	tmp1 = g_all.env;
+	g_all.env = argv_join(g_all.env, env);
+	free_split(tmp);
+	free_split(tmp1);
+}
+
+int	export_implement(t_cmd *cmd)
+{
 	char	*path;
 	int		env_len;
-	int		len;
 	int		i;
 
 	i = 1;
-	len = 0;
 	while (cmd->argv && cmd->argv[i])
 	{
 		env_len = envar_len(cmd->argv[i]);
@@ -63,15 +78,11 @@ int	export_implement(t_cmd *cmd)
 			g_all.env[env_len] = ft_strdup(cmd->argv[i]);
 		}
 		else
-		{
-			env = malloc(sizeof(char *) * 2);
-			env[0] = malloc(sizeof(char) * ft_strlen(cmd->argv[i]) + 1);
-			ft_memcpy(env[0], cmd->argv[i], ft_strlen(cmd->argv[i]));
-			env[0][ft_strlen(cmd->argv[i])] = '\0';
-			env[1] = NULL;
-			g_all.env = argv_join(g_all.env, env);
-		}
+			change_env(cmd->argv[i]);
+		free(path);
 		i++;
 	}
 	return (1);
 }
+
+//export niinoi=Rati may=LuLL

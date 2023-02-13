@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:20:43 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 17:54:53 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:49:01 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_getenv(char *str)
 		j++;
 		return (&g_all.env[i][j]);
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 int	find_envsize(char **envp)

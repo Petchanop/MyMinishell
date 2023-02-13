@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/02/09 00:06:09 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/12 22:16:00 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,9 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(BUILTIN_DIR)cd.c \
 	$(BUILTIN_DIR)echo.c \
 	$(BUILTIN_DIR)export.c \
+	$(BUILTIN_DIR)unset.c \
 	$(BUILTIN_DIR)exit.c \
+	$(BUILTIN_DIR)pwd.c \
 	$(EXPAND_DIR)expander.c \
 	$(EXPAND_DIR)en_var.c \
 	$(SIGNAL_DIR)ctrl_c.c \

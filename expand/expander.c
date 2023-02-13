@@ -65,14 +65,18 @@ char	*check_envar(char *token)
 {
 	int		var_idx;
 	int		sign;
+	char	*tmp;
 
+	tmp = token;
 	var_idx = find_envars(token);
 	sign = find_meta(token);
 	if (var_idx < 0 && (sign == QUOTE || sign == DOUBLE_QUOTE))
 		return (copy_meta(token, sign));
-	if (sign == QUOTE)
+	if (var_idx < 0 && var_idx < sign && sign == QUOTE)
 		return (copy_meta(token, sign));
 	var_idx = envar_size(token);
 	token = copy_envar(token, sign, var_idx);
+	free(tmp);
+	tmp = NULL;
 	return (token);
 }

@@ -6,13 +6,13 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:54:52 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 00:03:44 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/11 18:38:04 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_implement(char *arg, t_token *token, t_cmd *cmd, char **envp)
+int	exit_implement(char *arg, t_token *token, t_cmd *cmd, char **envp)
 {
 	if (!arg)
 	{
@@ -23,4 +23,5 @@ void	exit_implement(char *arg, t_token *token, t_cmd *cmd, char **envp)
 		write(1, "exit\n", 5);
 		exit(0);
 	}
+	return (1);
 }

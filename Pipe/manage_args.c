@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 16:16:22 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/07 15:52:31 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/11 12:34:23 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ char	**argv_join(char **arg1, char **arg2)
 	new_argv = malloc((len1 + len2 + 1) * sizeof(char *));
 	while (*arg1)
 	{
-		new_argv[i] = *arg1++;
+		new_argv[i] = ft_strdup(*arg1++);
 		i++;
 	}
 	while (*arg2)
 	{
-		new_argv[i] = *arg2++;
+		new_argv[i] = ft_strdup(*arg2++);
 		i++;
 	}
 	new_argv[i] = NULL;
@@ -56,7 +56,8 @@ void	remove_cmd(t_cmd **cmd, t_cmd *rem)
 	if ((*cmd) == rem)
 	{
 		*cmd = (*cmd)->next;
-		// free(re);
+		free_lstcmd(rem);
+		return ;
 	}
 	else
 		remove_cmd(&(*cmd)->next, rem);

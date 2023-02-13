@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 00:46:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 18:07:44 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 23:14:55 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,25 @@ int	envartoken_size(char *token)
 
 int	envar_size(char *token)
 {
-	char	*envar;
 	char	*geten;
 	int		i;
 	int		j;
 	int		size;
 
+	i = 0;
 	j = 0;
 	size = 0;
 	while (token && token[j])
 	{
-		if (token[j++] == EN_VAR)
+		if (token[j] == EN_VAR)
 		{
+			j++;
 			i = envar_len(&token[j]);
-			envar = ft_substr(token, j, i);
-			geten = ft_getenv(envar);
+			geten = getenv_str(token, j, i);
 			if (geten)
 				size += ft_strlen(geten);
-			free(envar);
-			envar = NULL;
 			j += i;
+			continue ;
 		}
 		else
 			j++;

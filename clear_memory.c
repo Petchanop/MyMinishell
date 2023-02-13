@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:33 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 18:03:03 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/11 17:00:46 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,12 @@ void	*ft_realloc(void *ptr, int size)
 void	ft_free(t_cmd *cmd)
 {
 	t_cmd	*fr;
-	int		i;
 
 	while (cmd)
 	{
 		fr = cmd;
 		cmd = cmd->next;
-		i = 0;
-		while (fr->argv && fr->argv[i])
-		{
-			free(fr->argv[i]);
-			fr->argv[i] = NULL;
-			i++;
-		}
-		free(fr->argv);
+		free_split(fr->argv);
 		fr->argv = NULL;
 		free(fr->cmd);
 		fr->cmd = NULL;
@@ -55,7 +47,6 @@ void	free_cmd(t_token *cmd)
 	t_token		*tmp;
 
 	tmp = NULL;
-	// print_token(cmd);
 	while (cmd)
 	{
 		tmp = cmd;
@@ -79,12 +70,26 @@ char	*free_str(char *a, char *b, char *(*f)(const char *, const char *))
 	return (ret);
 }
 
+char	**free_argv(char **a, char **b, char **(*f)(char **, char **))
+{
+	char	**argv;
+	char	**tmp1;
+	char	**tmp2;
+
+	tmp1 = a;
+	tmp2 = b;
+	argv = f(a, b);
+	free_split(tmp1);
+	free_split(tmp2);
+	return (argv);
+}
+
 void	free_split(char **spl)
 {
 	int	i;
 
 	i = 0;
-	while (spl[i])
+	while (spl && spl[i])
 	{
 		free(spl[i]);
 		spl[i] = NULL;
@@ -92,6 +97,18 @@ void	free_split(char **spl)
 	}
 	free(spl);
 	spl = NULL;
+}
+
+void	free_lstcmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	free(tmp->cmd);
+	free_split(tmp->argv);
+	tmp->cmd = NULL;
+	free(tmp);
+	tmp = NULL;
 }
 
 // int	main(void)

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 16:35:10 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:24:42 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void	parsing(char *arg, char **envp, t_token *cmd)
 	char	*tmp;
 	t_token	*right;
 
+	(void)envp;
 	right = NULL;
+	cmd->right = NULL;
 	if (!arg || !*arg)
 		exit_implement(arg, cmd, NULL, envp);
 	tmp = arg;

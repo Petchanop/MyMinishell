@@ -1,40 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_token.c                                     :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 21:24:25 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 22:21:58 by npiya-is         ###   ########.fr       */
+/*   Created: 2023/02/10 22:55:59 by npiya-is          #+#    #+#             */
+/*   Updated: 2023/02/10 23:11:13 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*assign_token(char *param, t_token *cmd, int i)
+void	arrange_newenv(char **env, int index)
 {
-	int		j;
-	char	*token;
+	while (env[index + 1])
+	{
+		env[index] = env[index + 1];
+		index++;
+	}
+	env[index] = NULL;
+}
 
-	j = 0;
-	if (!param || !param[0] || i == 0)
-		return (NULL);
-	token = malloc((i + 1) * sizeof(char));
-	while (j < i)
+int	unset_implement(t_cmd *cmd)
+{
+	int		i;
+	int		env_len;
+
+	i = 1;
+	env_len = 0;
+	while (cmd->argv && cmd->argv[i])
 	{
-		token[j] = param[j];
-		j++;
+		if (find_env(cmd->argv[i]))
+		{
+			env_len = find_envindex(cmd->argv[i]);
+			free(g_all.env[env_len]);
+			arrange_newenv(g_all.env, env_len);
+		}
+		i++;
 	}
-	token[j] = '\0';
-	if (token[0] == cmd->flag)
-	{
-		i = 1;
-		while (token[i] != cmd->flag && token[i])
-			i++;
-		if (param[i] == cmd->flag)
-			cmd->track = 0;
-	}
-	cmd->input = &param[j];
-	return (token);
+	return (1);
 }

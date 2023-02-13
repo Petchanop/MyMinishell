@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 23:03:53 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/06 23:15:56 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:40:26 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,17 @@ void	sig_hand_main(void)
 	sig_int.sa_flags = SA_SIGINFO;
 	sigemptyset(&sig_int.sa_mask);
 	sigaction(SIGINT, &sig_int, NULL);
+}
+
+void	sig_handle(int signo, siginfo_t *info, void *ucontext)
+{
+	(void)ucontext;
+	(void)info;
+	if (signo == SIGINT)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }

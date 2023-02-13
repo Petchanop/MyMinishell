@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 18:14:46 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/12 23:48:41 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*copy_meta(char	*param, int sign)
 	return (copy);
 }
 
-static	char	*getenv_str(char *token, int start, size_t len)
+char	*getenv_str(char *token, int start, size_t len)
 {
 	char	*en_var;
 	char	*var;
@@ -60,6 +60,8 @@ char	*copy_envar(char *token, int sign, int size)
 
 	j = 0;
 	k = 0;
+	if (!token)
+		return (NULL);
 	copy = malloc((ft_strlen(token) + size + 1) * sizeof(char));
 	while (token[j])
 	{
@@ -67,8 +69,11 @@ char	*copy_envar(char *token, int sign, int size)
 		{
 			idx = envar_len(&token[j + 1]);
 			en_var = getenv_str(token, j + 1, idx);
-			ft_memcpy(&copy[k], en_var, ft_strlen(en_var));
-			k += ft_strlen(en_var);
+			if (en_var)
+			{
+				ft_memcpy(&copy[k], en_var, ft_strlen(en_var));
+				k += ft_strlen(en_var);
+			}
 			j += idx;
 		}
 		else if (token[j] && token[j] != sign)
@@ -86,6 +91,7 @@ char	*copy_envar(char *token, int sign, int size)
 	int sign = DOUBLE_QUOTE;
 	char *ret = copy_envar(token, en_var, sign);
 	printf("%s\n", ret);
-}*/
-
-//gcc -Wall -Werror -Wextra -o var parsing/calculate_size.c expand/expander.c  expand/en_var.c parsing/parsing_utils.c parsing/checkcmd.c -L libft -lft
+}
+gcc -Wall -Werror -Wextra -o var parsing/calculate_size.c expand/expander.c  
+expand/en_var.c parsing/parsing_utils.c parsing/checkcmd.c -L libft -lft
+*/
