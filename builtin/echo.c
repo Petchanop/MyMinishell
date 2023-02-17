@@ -6,11 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 13:54:38 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/04 15:39:48 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	echo_implement(t_cmd *cmd)
 {

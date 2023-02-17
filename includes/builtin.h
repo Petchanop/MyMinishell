@@ -6,15 +6,15 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:01:53 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/14 15:26:59 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:45:45 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "../minishell.h"
-# include "../shell_types.h"
+# include "minishell.h"
+# include "shell_types.h"
 
 int		is_builtin_parent(t_cmd *cmd);
 int		is_builtin_child(t_cmd *cmd);

@@ -6,11 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:35:26 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 20:25:28 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	is_heredoc(t_cmd *cmd)
 {

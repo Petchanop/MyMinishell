@@ -6,11 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 22:08:42 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/16 17:09:29 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	is_builtin_parent(t_cmd *cmd)
 {

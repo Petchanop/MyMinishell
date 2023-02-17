@@ -6,11 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:41:51 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/01/29 01:02:15 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	ft_isspace(char c)
 {

@@ -6,11 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 22:27:40 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/13 21:00:35 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 char	*find_path(t_cmd *cmd)
 {

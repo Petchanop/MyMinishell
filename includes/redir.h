@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:35:24 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:23:34 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:44:23 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define REDIR_H
 
 # define BUFFER_SIZE 1 
+
+# include "shell_types.h"
 
 int		open_in(t_cmd *cmd, int flag);
 int		open_out(t_cmd *cmd, int flag);

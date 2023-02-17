@@ -6,15 +6,16 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/02/17 22:31:03 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/17 22:52:08 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
 CFLAGS= -Wall -Werror -Wextra
 
+INCLUDE= -I./includes/
 LDFLAGS	= -L/usr/local/opt/readline/lib
-CPPFLAGS = -I/usr/local/opt/readline/include
+CPPFLAGS = $(INCLUDE) -I/usr/local/opt/readline/include 
 
 LIBS= -L libft -lft
 
@@ -68,14 +69,14 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(OBJS_DIRS)
 	@make -C libft
-	$(CC) $(CFLAGS) $(CPPFLAGS) -lreadline $(OBJS) $(OBJS_DIRS) -o $(NAME) $(LIBS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -lreadline $(OBJS) $(OBJS_DIRS) -o $(NAME) $(LIBS)
 
 clean:
 	@make -C libft clean
 	rm -rf $(OBJS) $(OBJS_DIRS)
 
-fclean:
+fclean:clean
 	@make -C libft fclean
 	rm -rf $(NAME) $(NAME).dSYM
 
-re: fclean all 
+re: clean fclean all 

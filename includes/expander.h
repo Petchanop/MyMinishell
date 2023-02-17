@@ -6,15 +6,15 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:10:11 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/14 15:26:48 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:43:17 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-# include "../minishell.h"
-# include "../shell_types.h"
+# include "minishell.h"
+# include "shell_types.h"
 
 int		find_meta(char *param);
 int		check_meta(char meta);

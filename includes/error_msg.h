@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkmeta.c                                        :+:      :+:    :+:   */
+/*   error_msg.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/18 17:12:27 by npiya-is          #+#    #+#             */
-/*   Updated: 2022/12/19 17: by npiya-is         ###   ########.fr       */
+/*   Created: 2023/02/16 14:37:50 by npiya-is          #+#    #+#             */
+/*   Updated: 2023/02/17 22:12:30 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef ERROR_MSG_H
+# define ERROR_MSG_H
 
-char	*split_quote(char *param)
-{
-	int		size;
-	int		i;
-	char	*str_quote;
+# define CMD_NOTFOUND ": command not found\n"
+# define NMR_REQUIRED ": numeric argument required\n"
+# define FILE_NOTFOUND ": No such file or directory\n"
+# define TOO_MANY	": too many arguments\n"
 
-	size = 0;
-	i = 0;
-	while (!check_meta(param[size]) && param[size])
-		size++;
-	if (param[size] != check_meta(param[size]))
-		return (NULL);
-	str_quote = malloc((size + 1) * sizeof(char));
-	while (!check_meta(param[i]) && param[i])
-	{
-		str_quote[i] = param[i];
-		i++;
-	}
-	str_quote[i] = '\0';
-	return (str_quote);
-}
+int		check_isnum(char *str);
+void	check_openerror(t_cmd *cmd);
+
+#endif

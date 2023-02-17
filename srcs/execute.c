@@ -6,11 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:20:02 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:52:43 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	wait_process(t_cmd *cmd)
 {
@@ -27,7 +27,7 @@ void	wait_process(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	if (g_all.status == 130)
-		ft_putstr_fd("", 2);
+		ft_putstr_fd("\n", 2);
 	dup2(0, g_all.fds);
 }
 
