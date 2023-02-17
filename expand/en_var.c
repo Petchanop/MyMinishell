@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 00:46:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 23:14:55 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:56:30 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	envar_len(char *token)
 	int	i;
 
 	i = 0;
+	if (token[0] == '?' && !ft_isalnum(token[1]))
+		return (1);
 	while (ft_isalnum(token[i]) && token[i])
 		i++;
 	return (i);

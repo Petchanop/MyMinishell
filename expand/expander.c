@@ -66,7 +66,9 @@ char	*check_envar(char *token)
 	int		var_idx;
 	int		sign;
 	char	*tmp;
+	char	*copy;
 
+	copy = NULL;
 	tmp = token;
 	var_idx = find_envars(token);
 	sign = find_meta(token);
@@ -75,7 +77,9 @@ char	*check_envar(char *token)
 	if (var_idx < 0 && var_idx < sign && sign == QUOTE)
 		return (copy_meta(token, sign));
 	var_idx = envar_size(token);
-	token = copy_envar(token, sign, var_idx);
+	if (token)
+		copy = malloc((ft_strlen(token) + var_idx + 1) * sizeof(char));
+	token = copy_envar(token, copy, sign);
 	free(tmp);
 	tmp = NULL;
 	return (token);

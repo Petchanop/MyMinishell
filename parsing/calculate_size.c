@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:00:07 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/12 23:48:41 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:00:59 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*getenv_str(char *token, int start, size_t len)
 	char	*en_var;
 	char	*var;
 
+	if (token[start] == '?' && !ft_isalnum(token[1]))
+		return ("?");
 	en_var = ft_substr(token, start, len);
 	var = ft_getenv(en_var);
 	free(en_var);
@@ -50,30 +52,44 @@ char	*getenv_str(char *token, int start, size_t len)
 	return (var);
 }
 
-char	*copy_envar(char *token, int sign, int size)
+int	copy_toenvar(char *en_var, char *copy, int k)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	if (en_var[0] == '?')
+	{
+		tmp = ft_itoa(g_all.status);
+		ft_memcpy(copy, tmp, ft_strlen(tmp));
+		k += ft_strlen(tmp);
+		free(tmp);
+	}
+	else if (en_var)
+	{
+		ft_memcpy(copy, en_var, ft_strlen(en_var));
+		k += ft_strlen(en_var);
+	}
+	return (k);
+}
+
+char	*copy_envar(char *token, char *copy, int sign)
 {
 	int		idx;
 	int		j;
 	int		k;
-	char	*copy;
 	char	*en_var;
 
 	j = 0;
 	k = 0;
 	if (!token)
 		return (NULL);
-	copy = malloc((ft_strlen(token) + size + 1) * sizeof(char));
 	while (token[j])
 	{
 		if (token[j] && token[j] == EN_VAR)
 		{
 			idx = envar_len(&token[j + 1]);
 			en_var = getenv_str(token, j + 1, idx);
-			if (en_var)
-			{
-				ft_memcpy(&copy[k], en_var, ft_strlen(en_var));
-				k += ft_strlen(en_var);
-			}
+			k = copy_toenvar(en_var, &copy[k], k);
 			j += idx;
 		}
 		else if (token[j] && token[j] != sign)

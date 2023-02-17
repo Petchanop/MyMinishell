@@ -6,44 +6,11 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:28:13 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 21:53:29 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:17:11 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	count_tokensize(char *param, t_token *cmd)
-{
-	int	i;
-	int	sign;
-
-	i = 0;
-	sign = cmd->flag;
-	if (!param || !param[0])
-		return (i);
-	if (cmd->left && (cmd->track < 0 || cmd->left->track < 0))
-	{
-		i++;
-		while (param[i] && sign != check_arg(param[i], param[i + 1]))
-			i++;
-		i++;
-	}
-	else
-	{
-		while (param[i] && !check_arg(param[i], param[i + 1]) && !ft_isspace(param[i]))
-			i++;
-		if (param[i])
-			sign = check_arg(param[i], param[i + 1]);
-		if (sign == DOUBLE_QUOTE || sign == QUOTE)
-		{
-			i++;
-			while (param[i] && sign != check_arg(param[i], param[i + 1]))
-				i++;
-			i++;
-		}
-	}
-	return (i);
-}
 
 void	assign_track(int arg, t_token *cmd)
 {

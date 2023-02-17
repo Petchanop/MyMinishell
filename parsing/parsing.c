@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/09 22:24:42 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:31:10 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void	gettoken(char *param, t_token *cmd)
 
 void	parsing(char *arg, char **envp, t_token *cmd)
 {
-	char	*tmp;
 	t_token	*right;
+	char	*tmp;
 
 	(void)envp;
 	right = NULL;
-	cmd->right = NULL;
-	if (!arg || !*arg)
+	if (!arg)
 		exit_implement(arg, cmd, NULL, envp);
-	tmp = arg;
+	cmd->right = NULL;
 	cmd->input = arg;
+	tmp = arg;
 	while (arg[0])
 	{
 		gettoken(arg, cmd);
@@ -69,5 +69,4 @@ void	parsing(char *arg, char **envp, t_token *cmd)
 		cmd = cmd->right;
 	}
 	free(tmp);
-	tmp = NULL;
 }

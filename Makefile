@@ -6,24 +6,26 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/02/12 22:16:00 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/17 22:31:03 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= gcc
+CFLAGS= -Wall -Werror -Wextra
 
-CFLAGS= -g -Wall -Werror -Wextra
+LDFLAGS	= -L/usr/local/opt/readline/lib
+CPPFLAGS = -I/usr/local/opt/readline/include
 
-LIBS= -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline -L libft -lft
-# LIBS= -Lreadline -Ireadline -lreadline -L libft -lft
+LIBS= -L libft -lft
 
+SRCS_DIR= srcs/
 PARS_DIR= parsing/
 PIPE_DIR= Pipe/
 BUILTIN_DIR = builtin/
 EXPAND_DIR= expand/
 SIGNAL_DIR= signal/
 
-SRCS_PARS:= $(PARS_DIR)parsing.c \
+ALL_DIR:= $(PARS_DIR)parsing.c \
 	$(PARS_DIR)parsing_utils.c \
 	$(PARS_DIR)parseexec.c \
 	$(PARS_DIR)token.c \
@@ -36,6 +38,8 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(PIPE_DIR)access.c \
 	$(PIPE_DIR)manage_args.c \
 	$(PIPE_DIR)redir.c \
+	$(PIPE_DIR)heredoc.c \
+	$(PIPE_DIR)open_fd.c \
 	$(BUILTIN_DIR)isbuiltin.c \
 	$(BUILTIN_DIR)cd.c \
 	$(BUILTIN_DIR)echo.c \
@@ -45,20 +49,30 @@ SRCS_PARS:= $(PARS_DIR)parsing.c \
 	$(BUILTIN_DIR)pwd.c \
 	$(EXPAND_DIR)expander.c \
 	$(EXPAND_DIR)en_var.c \
-	$(SIGNAL_DIR)ctrl_c.c \
-	
-SRCS = main_shell.c \
-	execute.c \
-	clear_memory.c \
-	manage_env.c \
+	$(SIGNAL_DIR)signal.c \
+
+SRCS = $(SRCS_DIR)main_shell.c \
+	$(SRCS_DIR)execute.c \
+	$(SRCS_DIR)clear_memory.c \
+	$(SRCS_DIR)manage_env.c \
+	$(SRCS_DIR)print_cmd.c \
+	$(SRCS_DIR)setshellatt.c \
+	$(SRCS_DIR)error_msg.c \
+
+OBJS=$(SRCS:%.c=%.o)
+OBJS_DIRS=$(ALL_DIR:%.c=%.o)
 
 NAME= minishell
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS) $(OBJS_DIRS)
 	@make -C libft
-	$(CC) $(CFLAGS) $(SRCS) $(SRCS_PARS) -o $(NAME) $(LIBS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -lreadline $(OBJS) $(OBJS_DIRS) -o $(NAME) $(LIBS)
+
+clean:
+	@make -C libft clean
+	rm -rf $(OBJS) $(OBJS_DIRS)
 
 fclean:
 	@make -C libft fclean

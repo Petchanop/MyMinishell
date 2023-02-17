@@ -15,7 +15,7 @@
 int	check_flag(int flag)
 {
 	if (flag == PIPE || flag == REDIR_IN || flag == REDIR_OUT
-		|| flag == AMPERSAND || flag == APPEND || flag == OR)
+		|| flag == AMPERSAND || flag == APPEND || flag == HEREDOC)
 		return (1);
 	return (0);
 }

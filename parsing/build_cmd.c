@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:55:19 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/10 23:54:51 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/14 22:25:47 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	initialize_cmd(t_cmd *cmd, char **env)
 {
 	cmd->cmd = malloc(sizeof(char));
 	cmd->cmd[0] = '\0';
+	cmd->filename = ft_strdup("/tmp/");
 	cmd->flag = 0;
 	cmd->argv = NULL;
 	cmd->next = NULL;
