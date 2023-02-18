@@ -29,7 +29,6 @@ void	run_childprocess(t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	sig_hand_child();
 	dup2(g_all.fds, STDIN_FILENO);
 	close(g_all.fds);
 	g_all.redir = redir(cmd);
@@ -50,7 +49,7 @@ void	run_childprocess(t_cmd *cmd)
 		}
 		else if (execve(cmd->argv[0], &cmd->argv[i], cmd->env) == -1)
 			exit(1);
-	}		
+	}
 }
 
 void	close_fd(t_cmd *cmd, int *pipefd)

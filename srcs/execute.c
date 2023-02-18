@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 21:12:18 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:52:43 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:14:43 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	wait_process(t_cmd *cmd)
 	while (cmd)
 	{
 		waitpid(cmd->pid, &g_all.status, 0);
+		WEXITSTATUS(g_all.status);
+		WIFEXITED(g_all.status);
 		if (g_all.status == 256)
 			g_all.status = 1;
 		else if (g_all.status == 2)
@@ -26,8 +28,6 @@ void	wait_process(t_cmd *cmd)
 		g_all.pid = cmd->pid;
 		cmd = cmd->next;
 	}
-	if (g_all.status == 130)
-		ft_putstr_fd("\n", 2);
 	dup2(0, g_all.fds);
 }
 

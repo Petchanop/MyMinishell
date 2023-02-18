@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 23:03:53 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:18:14 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	sig_child_handle(int signo, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	(void)info;
 	if (signo == SIGQUIT)
-		exit(121);
+		;
 	if (signo == SIGINT)
-		exit(130);
+		;
 }

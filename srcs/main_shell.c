@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:39:03 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:14:04 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*read_arg(void)
 	tmp = ft_strjoin(CYAN, buff);
 	g_all.prompt = ft_strjoin(tmp, BLUE" >> "WHITE);
 	free(tmp);
+	g_all.prompt = ft_strjoin("\r", g_all.prompt);
 	arg = readline(g_all.prompt);
 	free(g_all.prompt);
 	g_all.prompt = NULL;
@@ -59,13 +60,14 @@ int	main(int argc, char **argv, char **envp)
 		g_all.pid = 0;
 		while (1)
 		{
+			sig_hand_main();
 			arg = read_arg();
 			cmd = malloc(sizeof(t_token));
 			initilize_token(cmd);
 			parsing(arg, g_all.env, cmd);
 			run_process(cmd);
+			reset_shellatt();
 		}
-		reset_shellatt();
 		rl_clear_history();
 	}
 	return (0);
