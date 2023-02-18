@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 17:29:12 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/18 02:14:04 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:56:06 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 			parsing(arg, g_all.env, cmd);
 			run_process(cmd);
 			reset_shellatt();
+			rl_replace_line("\n", 1);
 		}
 		rl_clear_history();
 	}

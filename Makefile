@@ -6,7 +6,7 @@
 #    By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/04 17:48:56 by npiya-is          #+#    #+#              #
-#    Updated: 2023/02/17 22:52:08 by npiya-is         ###   ########.fr        #
+#    Updated: 2023/02/18 16:31:39 by npiya-is         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,10 @@ all: $(NAME)
 $(NAME): $(OBJS) $(OBJS_DIRS)
 	@make -C libft
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -lreadline $(OBJS) $(OBJS_DIRS) -o $(NAME) $(LIBS)
+
+debug:
+	@make -C libft
+	$(CC) -g $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -lreadline $(SRCS) $(ALL_DIR) -o $(NAME) $(LIBS)	
 
 clean:
 	@make -C libft clean

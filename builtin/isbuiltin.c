@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 22:08:42 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:32:01 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	is_builtin_parent(t_cmd *cmd)
 {
-	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "cd", 3))
+	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "cd", 3)
+		&& find_envindex("PATH") >= 0)
 		return (cd_implement(cmd));
 	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "export", 7))
 		return (export_implement(cmd));
-	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "env", 4))
+	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "env", 4)
+		&& find_envindex("PATH") >= 0)
 		return (env_implement(g_all.env));
 	if (cmd && cmd->argv != NULL && !ft_strncmp(cmd->argv[0], "unset", 6))
 		return (unset_implement(cmd));

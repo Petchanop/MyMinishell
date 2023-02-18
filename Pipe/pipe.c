@@ -38,10 +38,10 @@ void	run_childprocess(t_cmd *cmd)
 	pipe_cmd(shift_redir(cmd, g_all.redir), g_all.pipe);
 	if (cmd->argv)
 	{
+		if (is_builtin_child(cmd))
+			exit(0);
 		while (cmd->argv[i] && !assign_pathcmd(cmd, cmd->argv[i]))
 			i++;
-		if (is_builtin_child(cmd))
-			return ;
 		if (!assign_pathcmd(cmd, cmd->argv[i]))
 		{
 			access_error(cmd, CMD_NOTFOUND);

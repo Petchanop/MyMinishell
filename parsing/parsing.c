@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:01:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:43:01 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	gettoken(char *param, t_token *cmd)
 {
 	if (!param || *param == '\0')
 		return ;
-	if (cmd->left && cmd->left->track != 1)
+	if ((cmd->left && cmd->left->track != 1) || !cmd->left)
 		cmd->input = trim_space(param);
 	if (ft_isspace(param[0]) && cmd->left)
 		cmd->left->track = 1;

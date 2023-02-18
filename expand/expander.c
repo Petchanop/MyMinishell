@@ -19,7 +19,9 @@ int	size_argquote(char *param, int sign)
 
 	i = 0;
 	j = 0;
-	while (param[j] && !ft_isspace(param[j]))
+	if (param && param[0] == sign)
+		j++;
+	while (param && param[j] && param[j] != sign)
 	{
 		if (sign == DOUBLE_QUOTE)
 		{

@@ -6,7 +6,7 @@
 /*   By: npiya-is <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 00:46:05 by npiya-is          #+#    #+#             */
-/*   Updated: 2023/02/17 22:38:33 by npiya-is         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:35:05 by npiya-is         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	find_quoteindex(char *token, char sign)
 	int	i;
 
 	i = 0;
-	while (token[i])
+	while (token && token[i])
 	{
 		if (token[i] == sign)
 			return (i);
